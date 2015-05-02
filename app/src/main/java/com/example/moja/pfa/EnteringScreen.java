@@ -1,17 +1,35 @@
 package com.example.moja.pfa;
 
+
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.DatePicker;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import java.util.Calendar;
 
 
-public class EnteringScreen extends ActionBarActivity {
+public class EnteringScreen extends ActionBarActivity implements View.OnClickListener {
+
+    TextView date;
+    ImageView datepicker;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        date=(TextView)findViewById(R.id.date);
+        datepicker=(ImageView)findViewById(R.id.datepicker);
+        datepicker.setOnClickListener(this);
+        // TODO set current date in
     }
 
 
@@ -35,5 +53,36 @@ public class EnteringScreen extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.datepicker:
+                createDialog(1).show();
+                break;
+        }
+    }
+
+    public Dialog createDialog(int id)
+    {
+        Dialog dialog=null;
+        switch(id)
+        {
+            case 1:
+                Calendar c=Calendar.getInstance();
+                int year=c.get(Calendar.YEAR);
+                int monthOfYear=c.get(Calendar.MONTH);
+                int dayOfMonth=c.get(Calendar.DAY_OF_MONTH);
+                dialog=new DatePickerDialog(EnteringScreen.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                          int dayOfMonth) {
+                        String selecteddate=(String.valueOf(dayOfMonth)).concat("/").concat(String.valueOf(monthOfYear+1)).concat("/").concat(String.valueOf(year));
+                        date.setText(selecteddate);
+                    }
+                }, year, monthOfYear, dayOfMonth);
+                break;
+        }
+        return dialog;
     }
 }

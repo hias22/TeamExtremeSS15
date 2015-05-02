@@ -16,7 +16,7 @@
         android:layout_marginStart="31dp"
         android:layout_marginTop="41dp"
         android:text="@string/es_string_transaction_amount"
-        android:editable="true" />
+        android:editable="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:layout_below="@+id/es_input_transaction_amount"
         android:layout_alignLeft="@+id/es_input_transaction_amount"
         android:layout_alignStart="@+id/es_input_transaction_amount"
-        android:editable="true" />
+        android:editable="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -49,4 +49,26 @@
         android:layout_alignRight="@+id/es_input_transaction_amount"
         android:layout_alignEnd="@+id/es_input_transaction_amount"
         android:editable="true" />
+
+
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12/12/2014"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="18sp"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/es_transaction_amount"
+        android:layout_alignEnd="@+id/es_transaction_amount" />
+
+    <ImageView
+        android:id="@+id/datepicker"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:src="@mipmap/ic_launcher"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@+id/date"/>
+
 </RelativeLayout>
