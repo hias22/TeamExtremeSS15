@@ -3,4 +3,6 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="es_string_transaction_amount">incoming/expanses</string>
+    <string name="es_string_description">description</string>
 </resources>
