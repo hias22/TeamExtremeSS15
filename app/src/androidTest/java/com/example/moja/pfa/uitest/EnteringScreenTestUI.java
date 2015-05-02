@@ -29,12 +29,8 @@ public class EnteringScreenTestUI extends ActivityInstrumentationTestCase2 {
     }
 
     public void testenterValidInputInTextfields() {
-        mySolo.enterText(4, "1000.00");
+        mySolo.enterText(1, "12.12");
         mySolo.enterText(3, "Spar");
     }
 
-    public void testenterInvalidInputInTextfields() {
-        mySolo.enterText(1, "abcde");
-        mySolo.enterText(2, "Spar");
-    }
 }

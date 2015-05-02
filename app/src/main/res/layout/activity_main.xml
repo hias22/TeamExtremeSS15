@@ -16,7 +16,7 @@
         android:layout_marginStart="31dp"
         android:layout_marginTop="41dp"
         android:text="@string/es_string_transaction_amount"
-        android:editable="true" />
+        android:editable="false" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -37,7 +37,7 @@
         android:layout_below="@+id/es_input_transaction_amount"
         android:layout_alignLeft="@+id/es_input_transaction_amount"
         android:layout_alignStart="@+id/es_input_transaction_amount"
-        android:editable="true" />
+        android:editable="false" />
 
     <EditText
         android:layout_width="wrap_content"
