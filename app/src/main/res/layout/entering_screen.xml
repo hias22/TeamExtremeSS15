@@ -71,4 +71,31 @@
         android:layout_centerVertical="true"
         android:layout_toRightOf="@+id/date"/>
 
+    <Spinner
+        android:id="@+id/es_category_spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:spinnerMode="dropdown"
+        android:layout_above="@+id/button"
+        android:layout_alignLeft="@+id/es_input_description"
+        android:layout_alignStart="@+id/es_input_description" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/es_string_button_store"
+        android:id="@+id/button"
+        android:layout_above="@+id/es_button_clear"
+        android:layout_toRightOf="@+id/es_description"
+        android:layout_toEndOf="@+id/es_description" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/es_string_button_clear"
+        android:id="@+id/es_button_clear"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>

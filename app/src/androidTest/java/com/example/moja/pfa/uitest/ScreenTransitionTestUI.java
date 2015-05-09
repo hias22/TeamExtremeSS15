@@ -5,16 +5,14 @@ import android.test.ActivityInstrumentationTestCase2;
 import com.example.moja.pfa.EnteringScreen;
 import com.robotium.solo.Solo;
 
-import junit.framework.TestCase;
-
 /**
  * Created by Mathias on 02.05.2015.
  */
-public class EnteringScreenTestUI extends ActivityInstrumentationTestCase2 {
+public class ScreenTransitionTestUI extends ActivityInstrumentationTestCase2 {
 
     private Solo mySolo;
 
-    public EnteringScreenTestUI() {
+    public ScreenTransitionTestUI() {
         super(EnteringScreen.class);
     }
 
@@ -28,9 +26,10 @@ public class EnteringScreenTestUI extends ActivityInstrumentationTestCase2 {
 
     }
 
-    public void testEnterValidInputInTextfields() {
-        mySolo.enterText(1, "12.12");
-        mySolo.enterText(3, "Spar");
+    public void testEnterDataOverviewScreenAndReturnViaActionBar() {
+        mySolo.clickOnActionBarItem(1);
+        mySolo.sleep(5000);
+        mySolo.clickOnActionBarItem(1);
     }
 
 }
