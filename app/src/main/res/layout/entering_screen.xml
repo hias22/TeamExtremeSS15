@@ -55,7 +55,7 @@
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="12/12/2014"
+        android:text="   today   "
         android:textColor="@android:color/darker_gray"
         android:textSize="18sp"
         android:layout_centerVertical="true"
@@ -76,7 +76,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
-        android:layout_above="@+id/button"
+        android:layout_above="@+id/es_button_store"
         android:layout_alignLeft="@+id/es_input_description"
         android:layout_alignStart="@+id/es_input_description" />
 
@@ -84,10 +84,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/es_string_button_store"
-        android:id="@+id/button"
+        android:id="@+id/es_button_store"
         android:layout_above="@+id/es_button_clear"
         android:layout_toRightOf="@+id/es_description"
-        android:layout_toEndOf="@+id/es_description" />
+        android:layout_toEndOf="@+id/es_description"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"

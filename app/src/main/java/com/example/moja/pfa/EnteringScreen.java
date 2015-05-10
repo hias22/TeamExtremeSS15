@@ -10,7 +10,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,7 +24,11 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
     TextView date;
     ImageView datepicker;
-    Dialog dialog;
+    Spinner spinner;
+    DatabaseInterface databaseInterface;
+    EditText editText_amount;
+    EditText editText_description;
+    Button button_store, button_clear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +38,16 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         date=(TextView)findViewById(R.id.date);
         datepicker=(ImageView)findViewById(R.id.datepicker);
         datepicker.setOnClickListener(this);
-        // TODO set current date in
+        button_clear = (Button)findViewById(R.id.es_button_clear);
+        button_store = (Button)findViewById(R.id.es_button_store);
+        button_clear.setOnClickListener(this);
+        button_store.setOnClickListener(this);
+
+        editText_amount = (EditText) findViewById(R.id.es_input_transaction_amount);
+        editText_description = (EditText) findViewById(R.id.es_input_description);
 
 
-        Spinner spinner = (Spinner) findViewById(R.id.es_category_spinner);
+        spinner = (Spinner) findViewById(R.id.es_category_spinner);
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_array, android.R.layout.simple_spinner_item);
@@ -43,6 +55,8 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        databaseInterface= new DatabaseInterface(this);
     }
 
 
@@ -75,9 +89,17 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
+        // TODO cases sollen in andere methode!!!
+        System.out.println("hallo");
         switch(v.getId()) {
             case R.id.datepicker:
                 createDialog(1).show();
+                break;
+            case R.id.es_button_store:
+                storePressed();
+                break;
+            case R.id.es_button_clear:
+                clearScreen();
                 break;
         }
     }
@@ -102,5 +124,26 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 break;
         }
         return dialog;
+    }
+
+    void storePressed(){
+        String selected_date = "";
+        if(date.getText().toString().equals("   today   ") == true)
+            selected_date = "09.05.2015";
+        else
+            selected_date = date.getText().toString();
+
+        DataSet dataSet = new DataSet(Integer.valueOf(editText_amount.getText().toString()),
+                editText_description.getText().toString(),
+                spinner.getSelectedItem().toString(),selected_date,  true);
+
+        clearScreen();
+    }
+
+    void clearScreen(){
+        date.setText("   today   ");
+        editText_amount.setText("");
+        editText_description.setText("");
+        spinner.setSelection(0);
     }
 }
