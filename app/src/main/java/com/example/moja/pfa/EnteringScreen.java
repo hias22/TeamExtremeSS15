@@ -4,8 +4,8 @@ package com.example.moja.pfa;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,7 +18,9 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+
 import java.util.Calendar;
+
 
 
 public class EnteringScreen extends ActionBarActivity implements View.OnClickListener {
@@ -58,7 +60,10 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
+        //tests:
         databaseInterface= new DatabaseInterface(this);
+        DataBaseTest dataBaseTest = new DataBaseTest(databaseInterface);
+        dataBaseTest.testAll();
     }
 
 
@@ -136,9 +141,9 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         else
             selected_date = date.getText().toString();
 
-        DataSet dataSet = new DataSet(Integer.valueOf(editText_amount.getText().toString()),
+        DataSet dataSet = new DataSet(editText_amount.getText().toString(),
                 editText_description.getText().toString(),
-                spinner.getSelectedItem().toString(),selected_date,  true);
+                spinner.getSelectedItem().toString(),selected_date,  "T");
 
         databaseInterface.insertDataSet(dataSet);
         clearScreen();

@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by Mathias on 09.05.2015.
@@ -27,12 +29,11 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     }
 
     private static final String TEXT_TYPE = " TEXT";
-    private static final String TEXT_REAL = " REAL";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + DatabaseEntry.TABLE_NAME + " (" +
                     DatabaseEntry._ID + " INTEGER PRIMARY KEY," +
-                    DatabaseEntry.COLUMN_NAME_AMOUNT + TEXT_REAL + COMMA_SEP +
+                    DatabaseEntry.COLUMN_NAME_AMOUNT + TEXT_TYPE + COMMA_SEP +
                     DatabaseEntry.COLUMN_NAME_CATEGORY + TEXT_TYPE + COMMA_SEP +
                     DatabaseEntry.COLUMN_NAME_DATE + TEXT_TYPE + COMMA_SEP +
                     DatabaseEntry.COLUMN_NAME_DESCRIPTION + TEXT_TYPE + COMMA_SEP +
@@ -106,14 +107,48 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     }
 */
 
+    public ArrayList<DataSet> getAllContacts() {
+        ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                String amount = cursor.getString(1);
+                String description = cursor.getString(4);
+                String category = cursor.getString(2);
+                String date = cursor.getString(3);
+                String expanse = cursor.getString(5);
+                DataSet dataSet = new DataSet(amount, description, category, date, expanse);
+                dataSetList.add(dataSet);
+            } while (cursor.moveToNext());
+        }
+        return reverse(dataSetList);
+    }
+
+    public ArrayList<DataSet> reverse(ArrayList<DataSet> oldDataSetList) {
+        ArrayList<DataSet> newDataSetList = new ArrayList<DataSet>();
+
+        for (int i = oldDataSetList.size()-1; i > 0; --i) {
+            newDataSetList.add(oldDataSetList.get(i));
+        }
+
+        return newDataSetList;
+    }
+
+
     public int getDataCount() {
         Log.d(TAG, "getDataCount");
         String countQuery = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
         cursor.close();
 
-        // return count
-        return cursor.getCount();
+        return count;
     }
 }
