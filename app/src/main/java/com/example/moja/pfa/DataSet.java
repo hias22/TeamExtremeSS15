@@ -15,5 +15,6 @@ public class DataSet {
         this.description=description;
         this.category=category;
         this.date=date;
+        this.expanse=expanse;
     }
 }

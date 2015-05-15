@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.Calendar;
 
 
 public class EnteringScreen extends ActionBarActivity implements View.OnClickListener {
+    private static final String TAG = "EnteringScreen";
 
     TextView date;
     ImageView datepicker;
@@ -90,7 +92,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         // TODO cases sollen in andere methode!!!
-        System.out.println("hallo");
+        Log.d(TAG, "onClick");
         switch(v.getId()) {
             case R.id.datepicker:
                 createDialog(1).show();
@@ -127,6 +129,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
     }
 
     void storePressed(){
+        Log.d(TAG, "storePressed");
         String selected_date = "";
         if(date.getText().toString().equals("   today   ") == true)
             selected_date = "09.05.2015";
@@ -137,6 +140,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 editText_description.getText().toString(),
                 spinner.getSelectedItem().toString(),selected_date,  true);
 
+        databaseInterface.insertDataSet(dataSet);
         clearScreen();
     }
 

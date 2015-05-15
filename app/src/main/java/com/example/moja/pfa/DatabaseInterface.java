@@ -1,14 +1,18 @@
 package com.example.moja.pfa;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
+import android.util.Log;
 
 /**
  * Created by Mathias on 09.05.2015.
  */
 public final class DatabaseInterface extends SQLiteOpenHelper {
+    private static final String TAG = "DatabaseInterface";
 
     SQLiteDatabase sql_db;
 
@@ -25,7 +29,7 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     private static final String TEXT_TYPE = " TEXT";
     private static final String TEXT_REAL = " REAL";
     private static final String COMMA_SEP = ",";
-    private static final String SQL_CREATE_ENTRIES =
+    private static final String SQL_CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS " + DatabaseEntry.TABLE_NAME + " (" +
                     DatabaseEntry._ID + " INTEGER PRIMARY KEY," +
                     DatabaseEntry.COLUMN_NAME_AMOUNT + TEXT_REAL + COMMA_SEP +
@@ -47,20 +51,11 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     }
 
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(SQL_CREATE_ENTRIES);
+        Log.d(TAG, "onCreate");
+        db.execSQL(SQL_CREATE_TABLE);
         sql_db=db;
     }
 
-    public void insertDataSet(DataSet ds) {
-         String SQL_INSERT ="INSERT INTO " + DatabaseEntry.TABLE_NAME + " VALUES (1," +
-                ds.amount + COMMA_SEP +
-                ds.category + COMMA_SEP +
-                ds.date + COMMA_SEP +
-                ds.description + COMMA_SEP +
-                ds.expanse +
-        ");";
-        sql_db.execSQL(SQL_INSERT);
-    }
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // This database is only a cache for online data, so its upgrade policy is
@@ -72,7 +67,53 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
         onUpgrade(db, oldVersion, newVersion);
     }
 
+// CRUD Operations (Create, Read, Update and Delete)
 
+    public void insertDataSet(DataSet ds) {
+        Log.d(TAG, "insertDataSet");
+        /*
+        String SQL_INSERT ="INSERT INTO " + DatabaseEntry.TABLE_NAME + " VALUES (1," +
+                ds.amount + COMMA_SEP +
+                ds.category + COMMA_SEP +
+                ds.date + COMMA_SEP +
+                ds.description + COMMA_SEP +
+                ds.expanse +
+                ");";
+        sql_db.execSQL(SQL_INSERT);
+*/
+        SQLiteDatabase db = this.getWritableDatabase();
 
+        ContentValues values = new ContentValues();
+        values.put(DatabaseEntry.COLUMN_NAME_AMOUNT, ds.amount);
+        values.put(DatabaseEntry.COLUMN_NAME_CATEGORY, ds.category);
+        values.put(DatabaseEntry.COLUMN_NAME_DATE, ds.date);
+        values.put(DatabaseEntry.COLUMN_NAME_DESCRIPTION, ds.description);
+        values.put(DatabaseEntry.COLUMN_NAME_TYPE, ds.expanse);
 
+        db.insert(DatabaseEntry.TABLE_NAME, null, values);
+        db.close();
+    }
+/*
+    public DataSet getDataSetFromString(String query) {
+        String SQL_INSERT ="INSERT INTO " + DatabaseEntry.TABLE_NAME + " VALUES (1," +
+                ds.amount + COMMA_SEP +
+                ds.category + COMMA_SEP +
+                ds.date + COMMA_SEP +
+                ds.description + COMMA_SEP +
+                ds.expanse +
+                ");";
+        sql_db.
+    }
+*/
+
+    public int getDataCount() {
+        Log.d(TAG, "getDataCount");
+        String countQuery = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        cursor.close();
+
+        // return count
+        return cursor.getCount();
+    }
 }
