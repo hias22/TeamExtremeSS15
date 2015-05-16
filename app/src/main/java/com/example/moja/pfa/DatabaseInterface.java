@@ -72,16 +72,6 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
 
     public void insertDataSet(DataSet ds) {
         Log.d(TAG, "insertDataSet");
-        /*
-        String SQL_INSERT ="INSERT INTO " + DatabaseEntry.TABLE_NAME + " VALUES (1," +
-                ds.amount + COMMA_SEP +
-                ds.category + COMMA_SEP +
-                ds.date + COMMA_SEP +
-                ds.description + COMMA_SEP +
-                ds.expanse +
-                ");";
-        sql_db.execSQL(SQL_INSERT);
-*/
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -109,13 +99,11 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
 
     public ArrayList<DataSet> getAllContacts() {
         ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
+        String selectAll = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
 
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursor = db.rawQuery(selectAll, null);
 
-        // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
                 String amount = cursor.getString(1);
@@ -127,6 +115,33 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
                 dataSetList.add(dataSet);
             } while (cursor.moveToNext());
         }
+
+        return reverse(dataSetList);
+    }
+
+    public ArrayList<DataSet> getContactsRequest(DataBaseRequest dataBaseRequest) {
+        ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
+        String selectAll = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectAll, null);
+
+        Date dateFrom = new Date(dataBaseRequest.date_from);
+        Date dateTo = new Date(dataBaseRequest.date_to);
+
+        if (cursor.moveToFirst()) {
+            do {
+                String amount = cursor.getString(1);
+                String description = cursor.getString(4);
+                String category = cursor.getString(2);
+                String date = cursor.getString(3);
+                Date dateOfEntry = new Date(date);
+                String expanse = cursor.getString(5);
+                DataSet dataSet = new DataSet(amount, description, category, date, expanse);
+                dataSetList.add(dataSet);
+            } while (cursor.moveToNext());
+        }
+
         return reverse(dataSetList);
     }
 
@@ -151,4 +166,5 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
 
         return count;
     }
+
 }

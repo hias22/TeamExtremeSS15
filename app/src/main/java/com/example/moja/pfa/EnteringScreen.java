@@ -136,8 +136,13 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
     void storePressed(){
         Log.d(TAG, "storePressed");
         String selected_date = "";
-        if(date.getText().toString().equals("   today   ") == true)
-            selected_date = "09.05.2015";
+        if(date.getText().toString().equals("   today   ") == true) {
+            Calendar c = Calendar.getInstance();
+            int month = c.get(Calendar.MONTH)+1;
+            int year = c.get(Calendar.YEAR);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+            selected_date =  String.valueOf(day) +"/" + String.valueOf(month) +"/" +String.valueOf(year);
+        }
         else
             selected_date = date.getText().toString();
 
