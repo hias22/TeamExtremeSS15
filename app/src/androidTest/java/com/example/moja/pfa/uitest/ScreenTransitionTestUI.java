@@ -32,4 +32,17 @@ public class ScreenTransitionTestUI extends ActivityInstrumentationTestCase2 {
         mySolo.clickOnActionBarItem(1);
     }
 
+    public void testEnteringDataAndSearchForThemInOverviewScreen() {
+        mySolo.waitForActivity("EnteringScreen");
+        String amount = "12.12";
+        String description = "Spar";
+        mySolo.enterText(1, amount);
+        mySolo.enterText(3, description);
+        mySolo.waitForActivity("DataOverviewScreen");
+        boolean amountBool = mySolo.searchText(amount);
+        boolean descriptionBool = mySolo.searchText(description);
+        assert(amountBool && descriptionBool);
+
+    }
+
 }

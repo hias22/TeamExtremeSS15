@@ -3,16 +3,20 @@ package com.example.moja.pfa;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,10 +38,18 @@ public class DataOverviewScreen extends ActionBarActivity {
 
         ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
         DatabaseInterface databaseInterface = new DatabaseInterface(this);
-        dataSetList = databaseInterface.getAllContacts();
+        dataSetList = databaseInterface.getAllDataSets();
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, dataSetList);
         listview.setAdapter(adapter);
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                Object listViewObject = listview.getItemAtPosition(position);
+                //DataSet selectedDataSet = (DataSet) listViewObject;
+                reactOnListViewItemSelected((DataSet) listViewObject);
+            }
+        });
 
     }
 
@@ -68,6 +80,13 @@ public class DataOverviewScreen extends ActionBarActivity {
         startActivity(intent);
     }
 
+    public void reactOnListViewItemSelected(DataSet dataSet) {
+        Intent intent = new Intent(this, EnteringScreen.class);
+        intent.putExtra("manipulateDataSet", true);
+        intent.putExtra("dataSet",(Parcelable) dataSet);
+        startActivity(intent);
+    }
+
 
     //listview
     private class StableArrayAdapter extends ArrayAdapter<DataSet> {
@@ -82,13 +101,6 @@ public class DataOverviewScreen extends ActionBarActivity {
             }
         }
 
-        /*
-        @Override
-        public long getItemId(int position) {
-            DataSet item = getItem(position);
-            return mIdMap.get(item);
-        }
-        */
 
         @Override
         public boolean hasStableIds() {
@@ -114,7 +126,7 @@ public class DataOverviewScreen extends ActionBarActivity {
                 }
 
                 if(amount != null) {
-                    amount.setText(dataSet.amount + " EU" );
+                    amount.setText(processAmount(dataSet.amount) + " EU" );
                 }
 
 
@@ -122,5 +134,44 @@ public class DataOverviewScreen extends ActionBarActivity {
             }
             return v;
         }
+
+        String processAmount(String inputString){
+
+            char[] inputStringArray =  inputString.toCharArray();
+            int pos = -1;
+            for(int i = 0; i < inputStringArray.length; i++) {
+                if(inputStringArray[i] == '.') {
+                    pos = i;
+                    break;
+                }
+            }
+
+            char[] outputStringArray;
+            if(pos == -1){
+                outputStringArray = new char[inputString.length()+3];
+                for(int j = 0; j < inputString.length(); ++j)
+                    outputStringArray[j]=inputStringArray[j];
+                outputStringArray[inputString.length()+0]='.';
+                outputStringArray[inputString.length()+1]='0';
+                outputStringArray[inputString.length()+2]='0';
+            }else {
+                outputStringArray = new char[pos + 3];
+                for(int j = 0; j < pos+1; ++j)
+                    outputStringArray[j]=inputStringArray[j];
+                if(inputStringArray.length < pos+2)
+                    outputStringArray[pos+1]='0';
+                else
+                    outputStringArray[pos+1]=inputStringArray[pos+1];
+                if(inputStringArray.length < pos+3)
+                    outputStringArray[pos+2]='0';
+                else
+                    outputStringArray[pos+2]=inputStringArray[pos+2];
+            }
+
+            String outputString=new String(outputStringArray);
+
+            return outputString;
+        }
+
     }
 }

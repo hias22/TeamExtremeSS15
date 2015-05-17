@@ -48,14 +48,43 @@ public class Date {
         this.year=Integer.parseInt(new String(year));
     }
 
-    public boolean isInRange(Date from, Date to){
+    public boolean isDateInRange(Date from, Date to){
 
         boolean booleanValue = false;
 
-        if(((this.year >= from.year) && (this.year <= to.year))){
+        if((!isDateBefore(from)) && (isDateBefore(to) || isDateTheSame(to) ))
+            booleanValue = true;
+
+        return booleanValue;
+    }
+
+    public boolean isDateBefore(Date date){
+        boolean booleanValue = false;
+
+        if(this.year <= date.year){
+            if(this.year < date.year){
+                booleanValue = true;
+            }else{
+                if(this.month <= date.month){
+                    if(this.month < date.month){
+                        booleanValue = true;
+                    }else{
+                        if(this.day < date.day){
+                            booleanValue = true;
+                        }
+                    }
+                }
+            }
+        }
+        return booleanValue;
+    }
+
+    public boolean isDateTheSame(Date date){
+        boolean booleanValue = false;
+
+        if(this.year == date.year && this.month == date.month && this.day == date.day){
             booleanValue = true;
         }
-
         return booleanValue;
     }
 

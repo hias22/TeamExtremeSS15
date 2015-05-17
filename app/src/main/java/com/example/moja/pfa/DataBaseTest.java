@@ -24,7 +24,7 @@ public class DataBaseTest{
     }
 
     public void testAddingDBEntryWithCount(){
-        DataSet testDataSet = new DataSet("34.5",TAG,"Bier","date","T");
+        DataSet testDataSet = new DataSet("34.5",TAG,"Beer","date","T");
         int oldNumberOfElementsInDB = databaseInterface.getDataCount();
         databaseInterface.insertDataSet(testDataSet);
         int newNumberOfElementsInDB = databaseInterface.getDataCount();

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.util.Calendar;
@@ -33,6 +34,8 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
     EditText editText_amount;
     EditText editText_description;
     Button button_store, button_clear;
+    boolean manipulateDataSet;
+    DataSet dataSetToManipulate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +63,25 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
-        //tests:
         databaseInterface= new DatabaseInterface(this);
         DataBaseTest dataBaseTest = new DataBaseTest(databaseInterface);
         dataBaseTest.testAll();
+
+        Intent intent = getIntent();
+        manipulateDataSet = intent.getBooleanExtra("manipulateDataSet",false);
+        if(manipulateDataSet){
+            dataSetToManipulate = intent.getParcelableExtra("dataSet");
+            editText_amount.setText(dataSetToManipulate.amount);
+            editText_description.setText(dataSetToManipulate.description);
+            String[] categories = getResources().getStringArray(R.array.category_array);
+            for(int position = 0; position < categories.length; ++position) {
+                if(categories[position].equals(dataSetToManipulate.category)) {
+                    spinner.setSelection(position);
+                }
+            }
+            date.setText(dataSetToManipulate.date);
+            //Toast.makeText(EnteringScreen.this, dataSetToManipulate.category ,Toast.LENGTH_LONG).show();
+        }
     }
 
 
@@ -133,25 +151,116 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         return dialog;
     }
 
+    boolean amountInputValid(String amount){
+
+        if(amount.length()==0)
+            return false;
+
+        char[] amountArray =  amount.toCharArray();
+
+        if(amountArray[0]=='0'){
+            if(amountArray.length<3){
+                return false;
+            }else {
+                if (amountArray[1] != '.')
+                    return false;
+                if(amountArray.length == 3) {
+                    if (amountArray[2] == '0')
+                        return false;
+                }else{
+                    if((amountArray[2] == '0') && (amountArray[3] == '0') )
+                        return false;
+                }
+            }
+        }
+
+        if(amountArray[0]=='.'){
+            if(amountArray.length<2){
+                return false;
+            }else {
+                if(amountArray.length == 2) {
+                    if (amountArray[1] == '0')
+                        return false;
+                }else{
+                    if((amountArray[1] == '0') && (amountArray[2] == '0') )
+                        return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    String processAmount(String inputString){
+
+        char[] inputStringArray =  inputString.toCharArray();
+        int pos = -1;
+        for(int i = 0; i < inputStringArray.length; i++) {
+            if(inputStringArray[i] == '.') {
+                pos = i;
+                break;
+            }
+        }
+
+        char[] outputStringArray;
+        if(pos == -1){
+            outputStringArray = new char[inputString.length()+3];
+            for(int j = 0; j < inputString.length(); ++j)
+                outputStringArray[j]=inputStringArray[j];
+            outputStringArray[inputString.length()+0]='.';
+            outputStringArray[inputString.length()+1]='0';
+            outputStringArray[inputString.length()+2]='0';
+        }else {
+            outputStringArray = new char[pos + 3];
+            for(int j = 0; j < pos+1; ++j)
+                outputStringArray[j]=inputStringArray[j];
+            if(inputStringArray.length < pos+2)
+                outputStringArray[pos+1]='0';
+            else
+                outputStringArray[pos+1]=inputStringArray[pos+1];
+            if(inputStringArray.length < pos+3)
+                outputStringArray[pos+2]='0';
+            else
+                outputStringArray[pos+2]=inputStringArray[pos+2];
+        }
+
+        String outputString=new String(outputStringArray);
+
+        return outputString;
+    }
+
     void storePressed(){
         Log.d(TAG, "storePressed");
-        String selected_date = "";
-        if(date.getText().toString().equals("   today   ") == true) {
-            Calendar c = Calendar.getInstance();
-            int month = c.get(Calendar.MONTH)+1;
-            int year = c.get(Calendar.YEAR);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-            selected_date =  String.valueOf(day) +"/" + String.valueOf(month) +"/" +String.valueOf(year);
+        if(amountInputValid(editText_amount.getText().toString())) {
+            String selected_date = "";
+            if (date.getText().toString().equals("   today   ") == true) {
+                Calendar c = Calendar.getInstance();
+                int month = c.get(Calendar.MONTH) + 1;
+                int year = c.get(Calendar.YEAR);
+                int day = c.get(Calendar.DAY_OF_MONTH);
+                selected_date = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
+            } else
+                selected_date = date.getText().toString();
+
+            String enteredAmount = processAmount(editText_amount.getText().toString());
+            DataSet dataSet = new DataSet(enteredAmount,
+                    editText_description.getText().toString(),
+                    spinner.getSelectedItem().toString(), selected_date, "T");
+
+            if (manipulateDataSet) {
+                dataSet.dataBaseId=dataSetToManipulate.dataBaseId;
+                databaseInterface.updateDataSet(dataSet);
+                Toast.makeText(EnteringScreen.this, "data updated", Toast.LENGTH_LONG).show();
+                manipulateDataSet = false;
+            } else {
+                databaseInterface.insertDataSet(dataSet);
+                Toast.makeText(EnteringScreen.this, "data stored", Toast.LENGTH_LONG).show();
+            }
+
+            clearScreen();
+        }else{
+            Toast.makeText(EnteringScreen.this, "Please enter valid amount", Toast.LENGTH_LONG).show();
         }
-        else
-            selected_date = date.getText().toString();
-
-        DataSet dataSet = new DataSet(editText_amount.getText().toString(),
-                editText_description.getText().toString(),
-                spinner.getSelectedItem().toString(),selected_date,  "T");
-
-        databaseInterface.insertDataSet(dataSet);
-        clearScreen();
     }
 
     void clearScreen(){
@@ -159,5 +268,10 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         editText_amount.setText("");
         editText_description.setText("");
         spinner.setSelection(0);
+        if(manipulateDataSet) {
+            databaseInterface.deleteDataSet(dataSetToManipulate);
+            Toast.makeText(EnteringScreen.this, "data set deleted", Toast.LENGTH_LONG).show();
+            manipulateDataSet=false;
+        }
     }
 }

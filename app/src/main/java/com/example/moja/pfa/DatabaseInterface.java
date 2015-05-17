@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 import android.util.Log;
-import java.util.List;
 import java.util.ArrayList;
 
 /**
@@ -42,7 +41,6 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     private static final String SQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + DatabaseEntry.TABLE_NAME;
 
-    // If you change the database schema, you must increment the database version.
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "pfa.db";
 
@@ -70,34 +68,22 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
 
 // CRUD Operations (Create, Read, Update and Delete)
 
-    public void insertDataSet(DataSet ds) {
+    public void insertDataSet(DataSet dataSet) {
         Log.d(TAG, "insertDataSet");
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(DatabaseEntry.COLUMN_NAME_AMOUNT, ds.amount);
-        values.put(DatabaseEntry.COLUMN_NAME_CATEGORY, ds.category);
-        values.put(DatabaseEntry.COLUMN_NAME_DATE, ds.date);
-        values.put(DatabaseEntry.COLUMN_NAME_DESCRIPTION, ds.description);
-        values.put(DatabaseEntry.COLUMN_NAME_TYPE, ds.expanse);
+        values.put(DatabaseEntry.COLUMN_NAME_AMOUNT, dataSet.amount);
+        values.put(DatabaseEntry.COLUMN_NAME_CATEGORY, dataSet.category);
+        values.put(DatabaseEntry.COLUMN_NAME_DATE, dataSet.date);
+        values.put(DatabaseEntry.COLUMN_NAME_DESCRIPTION, dataSet.description);
+        values.put(DatabaseEntry.COLUMN_NAME_TYPE, dataSet.expanse);
 
         db.insert(DatabaseEntry.TABLE_NAME, null, values);
         db.close();
     }
-/*
-    public DataSet getDataSetFromString(String query) {
-        String SQL_INSERT ="INSERT INTO " + DatabaseEntry.TABLE_NAME + " VALUES (1," +
-                ds.amount + COMMA_SEP +
-                ds.category + COMMA_SEP +
-                ds.date + COMMA_SEP +
-                ds.description + COMMA_SEP +
-                ds.expanse +
-                ");";
-        sql_db.
-    }
-*/
 
-    public ArrayList<DataSet> getAllContacts() {
+    public ArrayList<DataSet> getAllDataSets() {
         ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
         String selectAll = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
 
@@ -112,6 +98,7 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
                 String date = cursor.getString(3);
                 String expanse = cursor.getString(5);
                 DataSet dataSet = new DataSet(amount, description, category, date, expanse);
+                dataSet.dataBaseId = Integer.parseInt(cursor.getString(0));
                 dataSetList.add(dataSet);
             } while (cursor.moveToNext());
         }
@@ -119,7 +106,7 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
         return reverse(dataSetList);
     }
 
-    public ArrayList<DataSet> getContactsRequest(DataBaseRequest dataBaseRequest) {
+    public ArrayList<DataSet> getDataFromDataSetRequest(DataBaseRequest dataBaseRequest) {
         ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
         String selectAll = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
 
@@ -131,14 +118,17 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             do {
-                String amount = cursor.getString(1);
-                String description = cursor.getString(4);
-                String category = cursor.getString(2);
                 String date = cursor.getString(3);
                 Date dateOfEntry = new Date(date);
-                String expanse = cursor.getString(5);
-                DataSet dataSet = new DataSet(amount, description, category, date, expanse);
-                dataSetList.add(dataSet);
+                if(dateOfEntry.isDateInRange(dateFrom, dateTo)) {
+                    String amount = cursor.getString(1);
+                    String description = cursor.getString(4);
+                    String category = cursor.getString(2);
+                    String expanse = cursor.getString(5);
+                    DataSet dataSet = new DataSet(amount, description, category, date, expanse);
+                    dataSet.dataBaseId = Integer.parseInt(cursor.getString(0));
+                    dataSetList.add(dataSet);
+                }
             } while (cursor.moveToNext());
         }
 
@@ -165,6 +155,31 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
         cursor.close();
 
         return count;
+    }
+
+    public void deleteDatabaseEntries(){
+        sql_db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(sql_db);
+    }
+
+    public int updateDataSet(DataSet dataSet) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues values = new ContentValues();
+        values.put(DatabaseEntry.COLUMN_NAME_AMOUNT, dataSet.amount);
+        values.put(DatabaseEntry.COLUMN_NAME_CATEGORY, dataSet.category);
+        values.put(DatabaseEntry.COLUMN_NAME_DATE, dataSet.date);
+        values.put(DatabaseEntry.COLUMN_NAME_DESCRIPTION, dataSet.description);
+        values.put(DatabaseEntry.COLUMN_NAME_TYPE, dataSet.expanse);
+
+        return db.update(DatabaseEntry.TABLE_NAME, values, DatabaseEntry._ID + "=" + String.valueOf(dataSet.dataBaseId), null);
+    }
+
+    public void deleteDataSet(DataSet dataSet) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(DatabaseEntry.TABLE_NAME, DatabaseEntry._ID + " = ?",
+                new String[]{String.valueOf(dataSet.dataBaseId)});
+        db.close();
     }
 
 }
