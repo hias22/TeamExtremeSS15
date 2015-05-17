@@ -4,6 +4,8 @@ package com.example.moja.pfa;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -36,6 +39,8 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
     Button button_store, button_clear;
     boolean manipulateDataSet;
     DataSet dataSetToManipulate;
+    boolean isEnteredAmountAnExpanse;
+    ImageButton imageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,18 +59,19 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         editText_description = (EditText) findViewById(R.id.es_input_description);
 
 
+        //dropdown
         spinner = (Spinner) findViewById(R.id.es_category_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.category_array, android.R.layout.simple_spinner_item);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
 
         databaseInterface= new DatabaseInterface(this);
+        databaseInterface.getDataCount();
         DataBaseTest dataBaseTest = new DataBaseTest(databaseInterface);
         dataBaseTest.testAll();
+
+        isEnteredAmountAnExpanse=true;
 
         Intent intent = getIntent();
         manipulateDataSet = intent.getBooleanExtra("manipulateDataSet",false);
@@ -74,6 +80,8 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             editText_amount.setText(dataSetToManipulate.amount);
             editText_description.setText(dataSetToManipulate.description);
             String[] categories = getResources().getStringArray(R.array.category_array);
+            if(dataSetToManipulate.expanse.toCharArray()[0] == 'F')
+                isEnteredAmountAnExpanse=false;
             for(int position = 0; position < categories.length; ++position) {
                 if(categories[position].equals(dataSetToManipulate.category)) {
                     spinner.setSelection(position);
@@ -82,6 +90,27 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             date.setText(dataSetToManipulate.date);
             //Toast.makeText(EnteringScreen.this, dataSetToManipulate.category ,Toast.LENGTH_LONG).show();
         }
+
+        //ImageButton
+        imageButton = (ImageButton) findViewById(R.id.es_image_button);
+        if(isEnteredAmountAnExpanse)
+            imageButton.setBackgroundResource(R.mipmap.ic_minus);
+        else
+            imageButton.setBackgroundResource(R.mipmap.ic_plus);
+
+        imageButton.setOnClickListener( new View.OnClickListener(){
+            public void onClick(View v){
+                if(isEnteredAmountAnExpanse) {
+                    imageButton.setBackgroundResource(R.mipmap.ic_plus);
+                    isEnteredAmountAnExpanse=false;
+                }
+                else {
+                    imageButton.setBackgroundResource(R.mipmap.ic_minus);
+                    isEnteredAmountAnExpanse=true;
+                }
+            }
+        });
+
     }
 
 
@@ -191,7 +220,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         return true;
     }
 
-    String processAmount(String inputString){
+    String processEnteredAmount(String inputString){
 
         char[] inputStringArray =  inputString.toCharArray();
         int pos = -1;
@@ -242,10 +271,16 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             } else
                 selected_date = date.getText().toString();
 
-            String enteredAmount = processAmount(editText_amount.getText().toString());
+            String type;
+            if(isEnteredAmountAnExpanse)
+                type="T";
+            else
+                type="F";
+
+            String enteredAmount = processEnteredAmount(editText_amount.getText().toString());
             DataSet dataSet = new DataSet(enteredAmount,
                     editText_description.getText().toString(),
-                    spinner.getSelectedItem().toString(), selected_date, "T");
+                    spinner.getSelectedItem().toString(), selected_date, type);
 
             if (manipulateDataSet) {
                 dataSet.dataBaseId=dataSetToManipulate.dataBaseId;
@@ -268,6 +303,8 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         editText_amount.setText("");
         editText_description.setText("");
         spinner.setSelection(0);
+        imageButton.setBackgroundResource(R.mipmap.ic_minus);
+        isEnteredAmountAnExpanse=true;
         if(manipulateDataSet) {
             databaseInterface.deleteDataSet(dataSetToManipulate);
             Toast.makeText(EnteringScreen.this, "data set deleted", Toast.LENGTH_LONG).show();

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -117,25 +119,32 @@ public class DataOverviewScreen extends ActionBarActivity {
 
             DataSet dataSet = mIdMap.get(position);
 
+
             if (dataSet != null) {
                 TextView description_category = (TextView) v.findViewById(R.id.data_overview_screen_description);
                 TextView amount = (TextView) v.findViewById(R.id.data_overview_screen_amount);
+                ImageView imageView = (ImageView)  v.findViewById(R.id.item_image);
 
                 if (description_category != null) {
                     description_category.setText(dataSet.description + "["  + dataSet.category + "] - "+ dataSet.date);
                 }
 
                 if(amount != null) {
-                    amount.setText(processAmount(dataSet.amount) + " EU" );
+                    amount.setText(processEnteredAmount(dataSet.amount) + " EU" );
                 }
 
-
-
+                if(dataSet.expanse.toCharArray()[0] == 'T')
+                    imageView.setBackgroundResource(R.mipmap.ic_minus);
+                else if(dataSet.expanse.toCharArray()[0] == 'F')
+                    imageView.setBackgroundResource(R.mipmap.ic_plus);
+                else
+                    imageView.setBackgroundResource(R.mipmap.ic_launcher);
             }
+
             return v;
         }
 
-        String processAmount(String inputString){
+        String processEnteredAmount(String inputString){
 
             char[] inputStringArray =  inputString.toCharArray();
             int pos = -1;
