@@ -132,12 +132,20 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         if (id == R.id.action_overview) {
             openDataOverviewScreen();
         }
+        if (id == R.id.action_analytic) {
+            openAnalyticScreenSearch();
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void openDataOverviewScreen() {
         Intent intent = new Intent(this, DataOverviewScreen.class);
+        startActivity(intent);
+    }
+
+    public void openAnalyticScreenSearch() {
+        Intent intent = new Intent(this, AnalyticScreenSearch.class);
         startActivity(intent);
     }
 
@@ -287,12 +295,15 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 databaseInterface.updateDataSet(dataSet);
                 Toast.makeText(EnteringScreen.this, "data updated", Toast.LENGTH_LONG).show();
                 manipulateDataSet = false;
+                clearScreen();
+                openDataOverviewScreen();
             } else {
                 databaseInterface.insertDataSet(dataSet);
                 Toast.makeText(EnteringScreen.this, "data stored", Toast.LENGTH_LONG).show();
+                clearScreen();
             }
 
-            clearScreen();
+
         }else{
             Toast.makeText(EnteringScreen.this, "Please enter valid amount", Toast.LENGTH_LONG).show();
         }
@@ -309,6 +320,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             databaseInterface.deleteDataSet(dataSetToManipulate);
             Toast.makeText(EnteringScreen.this, "data set deleted", Toast.LENGTH_LONG).show();
             manipulateDataSet=false;
+            openDataOverviewScreen();
         }
     }
 }

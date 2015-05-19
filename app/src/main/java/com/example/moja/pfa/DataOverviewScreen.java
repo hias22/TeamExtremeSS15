@@ -73,12 +73,20 @@ public class DataOverviewScreen extends ActionBarActivity {
         if (id == R.id.action_entering) {
             openEnteringScreen();
         }
+        if (id == R.id.action_analytic) {
+            openAnalyticScreenSearch();
+        }
 
         return super.onOptionsItemSelected(item);
     }
 
     public void openEnteringScreen() {
         Intent intent = new Intent(this, EnteringScreen.class);
+        startActivity(intent);
+    }
+
+    public void openAnalyticScreenSearch() {
+        Intent intent = new Intent(this, AnalyticScreenSearch.class);
         startActivity(intent);
     }
 
