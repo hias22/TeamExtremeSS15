@@ -33,4 +33,10 @@ public class EnteringScreenTestUI extends ActivityInstrumentationTestCase2 {
         mySolo.enterText(3, "Spar");
     }
 
+    public void testAddingDBEntry(){
+        mySolo.enterText(1, "12.12");
+        mySolo.enterText(3, "Spar");
+        mySolo.clickOnButton(0);
+    }
+
 }
