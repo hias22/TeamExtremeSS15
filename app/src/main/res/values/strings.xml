@@ -14,6 +14,7 @@
     <string name="ass_string_from">from</string>
     <string name="ass_string_to">to</string>
     <string name="ass_string_ok_button">OK</string>
+    <string name="asr_string_overall_sum">Overall sum</string>
 
 
     <string-array name="category_array">

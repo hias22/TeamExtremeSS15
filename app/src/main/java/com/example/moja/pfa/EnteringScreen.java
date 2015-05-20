@@ -149,7 +149,6 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        // TODO cases sollen in andere methode!!!
         Log.d(TAG, "onClick");
         switch(v.getId()) {
             case R.id.es_datepicker:

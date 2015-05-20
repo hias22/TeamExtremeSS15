@@ -5,6 +5,7 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -27,6 +28,7 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
     Button button_ok;
     ImageView datepickerFrom;
     ImageView datepickerTo;
+    DataBaseRequest dataBaseRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,7 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
         button_ok = (Button)findViewById(R.id.ass_ok_button);
         button_ok.setOnClickListener(this);
 
+        dataBaseRequest = new DataBaseRequest();
     }
 
 
@@ -77,6 +80,7 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
 
     public void openAnalyticScreenResult() {
         Intent intent = new Intent(this, AnalyticScreenResult.class);
+        intent.putExtra("dataBaseRequest",dataBaseRequest);
         startActivity(intent);
     }
 
@@ -87,7 +91,6 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        // TODO cases sollen in andere methode!!!
         Log.d(TAG, "onClick");
         switch(v.getId()) {
             case R.id.ass_datepicker_from:
@@ -103,6 +106,20 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
     }
 
     public void okButtonPressed(){
+        dataBaseRequest.date_from=dateFrom.getText().toString();
+        dataBaseRequest.date_to=dateTo.getText().toString();
+
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH) + 1;
+        int year = c.get(Calendar.YEAR);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        if (dataBaseRequest.date_from.equals("   today   ")) {
+            dataBaseRequest.date_from = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
+        }
+        if (dataBaseRequest.date_to.equals("   today   ")) {
+            dataBaseRequest.date_to = String.valueOf(day) + "/" + String.valueOf(month) + "/" + String.valueOf(year);
+        }
+
         openAnalyticScreenResult();
     }
 
