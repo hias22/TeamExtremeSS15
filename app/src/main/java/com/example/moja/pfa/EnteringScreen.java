@@ -4,8 +4,6 @@ package com.example.moja.pfa;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -48,7 +46,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         setContentView(R.layout.entering_screen);
 
         date=(TextView)findViewById(R.id.date);
-        datepicker=(ImageView)findViewById(R.id.datepicker);
+        datepicker=(ImageView)findViewById(R.id.es_datepicker);
         datepicker.setOnClickListener(this);
         button_clear = (Button)findViewById(R.id.es_button_clear);
         button_store = (Button)findViewById(R.id.es_button_store);
@@ -151,10 +149,9 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        // TODO cases sollen in andere methode!!!
         Log.d(TAG, "onClick");
         switch(v.getId()) {
-            case R.id.datepicker:
+            case R.id.es_datepicker:
                 createDialog(1).show();
                 break;
             case R.id.es_button_store:

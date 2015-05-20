@@ -11,7 +11,10 @@
     <string name="es_string_action_data_overview_screen">Overview</string>
     <string name="es_string_action_entering_screen">Entering Screen</string>
     <string name="es_string_action_analytic_screen_search">Analysis</string>
-
+    <string name="ass_string_from">from</string>
+    <string name="ass_string_to">to</string>
+    <string name="ass_string_ok_button">OK</string>
+    <string name="asr_string_overall_sum">Overall sum</string>
 
 
     <string-array name="category_array">

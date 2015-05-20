@@ -82,9 +82,11 @@ public class Date {
     public boolean isDateTheSame(Date date){
         boolean booleanValue = false;
 
-        if(this.year == date.year && this.month == date.month && this.day == date.day){
+        if((this.year.compareTo(date.year) == 0) && (this.month.compareTo(date.month) == 0) && (this.day.compareTo(date.day) == 0)){
             booleanValue = true;
         }
+
+
         return booleanValue;
     }
 

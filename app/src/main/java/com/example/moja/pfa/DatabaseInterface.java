@@ -106,7 +106,7 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
         return reverse(dataSetList);
     }
 
-    public ArrayList<DataSet> getDataFromDataSetRequest(DataBaseRequest dataBaseRequest) {
+    public ArrayList<DataSet> getDataFromDataBaseRequest(DataBaseRequest dataBaseRequest) {
         ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
         String selectAll = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
 
