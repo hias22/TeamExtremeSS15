@@ -54,16 +54,16 @@
         android:layout_height="wrap_content"
         android:text="   today   "
         android:textColor="@android:color/darker_gray"
-        android:textSize="18sp"
+        android:textSize="28sp"
         android:layout_alignBottom="@+id/es_datepicker"
-        android:layout_toLeftOf="@+id/es_button_clear"
-        android:layout_toStartOf="@+id/es_button_clear" />
+        android:layout_alignLeft="@+id/es_button_clear"
+        android:layout_alignStart="@+id/es_button_clear" />
 
     <ImageView
         android:id="@+id/es_datepicker"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/calendar"
         android:layout_marginTop="33dp"
         android:layout_below="@+id/es_input_description"
         android:layout_toLeftOf="@+id/es_input_description"
@@ -100,9 +100,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/es_image_button"
         android:layout_below="@+id/es_transaction_amount"
-        android:layout_toLeftOf="@+id/date"
         android:layout_above="@+id/es_description"
         android:layout_alignLeft="@+id/es_datepicker"
-        android:layout_alignStart="@+id/es_datepicker" />
+        android:layout_alignStart="@+id/es_datepicker"
+        android:layout_toLeftOf="@+id/es_transaction_amount"
+        android:layout_toStartOf="@+id/es_transaction_amount" />
 
 </RelativeLayout>

@@ -22,9 +22,12 @@
         android:layout_height="wrap_content"
         android:text="   today   "
         android:textColor="@android:color/darker_gray"
-        android:textSize="18sp"
+        android:textSize="28sp"
         android:layout_below="@+id/ass_from"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignLeft="@+id/ass_ok_button"
+        android:layout_alignStart="@+id/ass_ok_button"
+        android:layout_marginLeft="41dp"
+        android:layout_marginStart="41dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -43,8 +46,8 @@
         android:layout_height="wrap_content"
         android:text="   today   "
         android:textColor="@android:color/darker_gray"
-        android:textSize="18sp"
-        android:layout_below="@+id/ass_to"
+        android:textSize="28sp"
+        android:layout_alignBottom="@+id/ass_datepicker_to"
         android:layout_alignLeft="@+id/date_from"
         android:layout_alignStart="@+id/date_from" />
 
@@ -61,7 +64,7 @@
         android:id="@+id/ass_datepicker_from"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/calendar"
         android:layout_alignTop="@+id/date_from"
         android:layout_toRightOf="@+id/ass_from"
         android:layout_toEndOf="@+id/ass_from" />
@@ -70,7 +73,7 @@
         android:id="@+id/ass_datepicker_to"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@mipmap/ic_launcher"
+        android:src="@mipmap/calendar"
         android:layout_below="@+id/ass_to"
         android:layout_alignLeft="@+id/ass_datepicker_from"
         android:layout_alignStart="@+id/ass_datepicker_from" />

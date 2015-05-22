@@ -92,18 +92,18 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         //ImageButton
         imageButton = (ImageButton) findViewById(R.id.es_image_button);
         if(isEnteredAmountAnExpanse)
-            imageButton.setBackgroundResource(R.mipmap.ic_minus);
+            imageButton.setBackgroundResource(R.mipmap.minus);
         else
-            imageButton.setBackgroundResource(R.mipmap.ic_plus);
+            imageButton.setBackgroundResource(R.mipmap.plus);
 
         imageButton.setOnClickListener( new View.OnClickListener(){
             public void onClick(View v){
                 if(isEnteredAmountAnExpanse) {
-                    imageButton.setBackgroundResource(R.mipmap.ic_plus);
+                    imageButton.setBackgroundResource(R.mipmap.plus);
                     isEnteredAmountAnExpanse=false;
                 }
                 else {
-                    imageButton.setBackgroundResource(R.mipmap.ic_minus);
+                    imageButton.setBackgroundResource(R.mipmap.minus);
                     isEnteredAmountAnExpanse=true;
                 }
             }

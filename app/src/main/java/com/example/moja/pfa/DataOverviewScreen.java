@@ -142,9 +142,9 @@ public class DataOverviewScreen extends ActionBarActivity {
                 }
 
                 if(dataSet.expanse.toCharArray()[0] == 'T')
-                    imageView.setBackgroundResource(R.mipmap.ic_minus);
+                    imageView.setBackgroundResource(R.mipmap.minus);
                 else if(dataSet.expanse.toCharArray()[0] == 'F')
-                    imageView.setBackgroundResource(R.mipmap.ic_plus);
+                    imageView.setBackgroundResource(R.mipmap.plus);
                 else
                     imageView.setBackgroundResource(R.mipmap.ic_launcher);
             }
