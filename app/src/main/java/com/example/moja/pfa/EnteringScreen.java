@@ -6,10 +6,12 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.internal.widget.AdapterViewCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,8 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
-
+import java.util.List;
 
 
 public class EnteringScreen extends ActionBarActivity implements View.OnClickListener {
@@ -61,10 +66,26 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
         //dropdown
         spinner = (Spinner) findViewById(R.id.es_category_spinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.category_array, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        String[] stringArray = this.getResources().getStringArray(R.array.category_array);
+        List<String> categoryList = new ArrayList<String>();
+        for(int iterator=0; iterator <stringArray.length; iterator++)
+            categoryList.add(stringArray[iterator]);
+        categoryList.add(this.getResources().getString(R.string.spinner_add_new_category));
+        ArrayAdapter<String> adapterString = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,categoryList);
+        adapterString.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapterString);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(String.valueOf(spinner.getSelectedItem()).equals(parent.getResources().getString(R.string.spinner_add_new_category)))
+                    dropdownLastElementSelected();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
 
         databaseInterface= new DatabaseInterface(this);
         databaseInterface.getDataCount();
@@ -119,6 +140,10 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_entering_screen, menu);
         return true;
+    }
+
+    public void dropdownLastElementSelected(){
+        Toast.makeText(EnteringScreen.this, "do", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -308,18 +333,21 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         }
     }
 
-    void clearScreen(){
+    void clearScreen() {
         date.setText("   today   ");
         editText_amount.setText("");
         editText_description.setText("");
         spinner.setSelection(0);
         imageButton.setBackgroundResource(R.mipmap.minus);
-        isEnteredAmountAnExpanse=true;
-        if(manipulateDataSet) {
+        isEnteredAmountAnExpanse = true;
+        if (manipulateDataSet) {
             databaseInterface.deleteDataSet(dataSetToManipulate);
             Toast.makeText(EnteringScreen.this, "data set deleted", Toast.LENGTH_LONG).show();
-            manipulateDataSet=false;
+            manipulateDataSet = false;
             openDataOverviewScreen();
         }
     }
+
+
+
 }

@@ -194,7 +194,7 @@ public class AnalyticScreenResult extends ActionBarActivity {
                 else if(dataSetResult.category.equals(this.getContext().getResources().getString(R.string.asr_string_overall_sum)))
                     imageView.setBackgroundResource(R.mipmap.sum);
                 else
-                    imageView.setBackgroundResource(R.mipmap.ic_launcher);
+                    imageView.setBackgroundResource(R.mipmap.user);
             }
 
             return v;
@@ -244,17 +244,17 @@ public class AnalyticScreenResult extends ActionBarActivity {
         ArrayList<DataSetResult> dataSetResultList = new ArrayList<DataSetResult>();
 
         String[] stringArray = this.getResources().getStringArray(R.array.category_array);
-
-        Double[] amountExpanses = new Double[stringArray.length];
-        Double[] amountEarnings = new Double[stringArray.length];
+        Integer stringArrayLength = stringArray.length;
+        Double[] amountExpanses = new Double[stringArrayLength];
+        Double[] amountEarnings = new Double[stringArrayLength];
         int iterator;
-        for(iterator=0; iterator<stringArray.length; iterator++){
+        for(iterator=0; iterator<stringArrayLength; iterator++){
             amountExpanses[iterator]=0.0;
             amountEarnings[iterator]=0.0;
         }
         int iteratorCategory;
         for(iterator=0; iterator<dataSetList.size(); iterator++){
-            for(iteratorCategory=0; iteratorCategory < stringArray.length; iteratorCategory++){
+            for(iteratorCategory=0; iteratorCategory < stringArrayLength; iteratorCategory++){
                 if(stringArray[iteratorCategory].equals(dataSetList.get(iterator).category)){
                     if(dataSetList.get(iterator).expanse.toCharArray()[0] == 'T'){
                         amountExpanses[iteratorCategory]=amountExpanses[iteratorCategory]+ Double.valueOf(dataSetList.get(iterator).amount);
