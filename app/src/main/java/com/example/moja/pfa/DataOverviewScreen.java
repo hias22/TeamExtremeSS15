@@ -34,6 +34,8 @@ public class DataOverviewScreen extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_overview_screen);
 
+        setTitle(R.string.os_title);
+
         //listview:
 
         final ListView listview = (ListView) findViewById(R.id.data_overview_list_view);
@@ -120,12 +122,16 @@ public class DataOverviewScreen extends ActionBarActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;
+            DataSet dataSet = mIdMap.get(position);
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.data_overview_item, null);
+                if(dataSet.expanse.toCharArray()[0] == 'T')
+                    v = vi.inflate(R.layout.data_overview_item_red, null);
+                else if(dataSet.expanse.toCharArray()[0] == 'F')
+                    v = vi.inflate(R.layout.data_overview_item_green, null);
+                else
+                    v = vi.inflate(R.layout.data_overview_item, null);
             }
-
-            DataSet dataSet = mIdMap.get(position);
 
 
             if (dataSet != null) {

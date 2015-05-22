@@ -35,6 +35,8 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.analytic_screen_search);
 
+        setTitle(R.string.ass_title);
+
         dateFrom=(TextView)findViewById(R.id.date_from);
         dateTo=(TextView)findViewById(R.id.date_to);
         datepickerFrom=(ImageView)findViewById(R.id.ass_datepicker_from);

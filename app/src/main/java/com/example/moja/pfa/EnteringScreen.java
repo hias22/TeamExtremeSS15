@@ -45,6 +45,8 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.entering_screen);
 
+        setTitle(R.string.es_title);
+
         date=(TextView)findViewById(R.id.date);
         datepicker=(ImageView)findViewById(R.id.es_datepicker);
         datepicker.setOnClickListener(this);
@@ -311,7 +313,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         editText_amount.setText("");
         editText_description.setText("");
         spinner.setSelection(0);
-        imageButton.setBackgroundResource(R.mipmap.ic_minus);
+        imageButton.setBackgroundResource(R.mipmap.minus);
         isEnteredAmountAnExpanse=true;
         if(manipulateDataSet) {
             databaseInterface.deleteDataSet(dataSetToManipulate);

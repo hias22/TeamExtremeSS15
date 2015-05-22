@@ -11,7 +11,6 @@
     android:id="@+id/asr_item_image"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
-    android:src="@mipmap/ic_launcher"
     android:layout_marginRight="6dip"
     xmlns:android="http://schemas.android.com/apk/res/android" />
 
@@ -20,26 +19,43 @@
 
     <LinearLayout
         android:orientation="vertical"
-        android:layout_width="0dip"
+        android:layout_width="fill_parent"
         android:layout_weight="1"
         android:layout_height="fill_parent">
 
-        <TextView android:id="@+id/analytic_screen_result_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"/>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="fill_parent">
+
+            <TextView android:id="@+id/analytic_screen_result_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="12sp"/>
+
+            <TextView android:id="@+id/analytic_screen_result_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:textSize="8sp"/>
+
+        </LinearLayout>
 
         <TextView android:id="@+id/analytic_screen_result_amount_earnings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10px"
-            android:textColor="#0099CC"/>
+            android:textColor="#0099CC"
+            android:textSize="8sp"/>
 
         <TextView android:id="@+id/analytic_screen_result_amount_expanses"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10px"
-            android:textColor="#0099CC"/>
+            android:textColor="#0099CC"
+            android:textSize="8sp"/>
 
     </LinearLayout>
 

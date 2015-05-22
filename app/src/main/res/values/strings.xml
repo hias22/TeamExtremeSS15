@@ -15,12 +15,19 @@
     <string name="ass_string_to">to</string>
     <string name="ass_string_ok_button">OK</string>
     <string name="asr_string_overall_sum">Overall sum</string>
+    <string name="es_title">Entering Screen</string>
+    <string name="os_title">Overview Screen</string>
+    <string name="ass_title">Analytic Screen</string>
+    <string name="asr_title">Analytic Result Screen</string>
 
 
     <string-array name="category_array">
-        <item>Standard</item>
+        <item>Other</item>
+        <item>Car</item>
         <item>Food</item>
-        <item>Beer</item>
+        <item>Sport</item>
+        <item>Work</item>
+        <item>Living</item>
     </string-array>
 
 </resources>

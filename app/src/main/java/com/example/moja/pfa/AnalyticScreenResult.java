@@ -30,6 +30,8 @@ public class AnalyticScreenResult extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.analytic_screen_result);
 
+        setTitle(R.string.asr_title);
+
         Intent intent = getIntent();
         DataBaseRequest dataBaseRequest = intent.getParcelableExtra("dataBaseRequest");
 
@@ -139,27 +141,60 @@ public class AnalyticScreenResult extends ActionBarActivity {
                 TextView amount_earnings = (TextView) v.findViewById(R.id.analytic_screen_result_amount_earnings);
                 TextView amount_expanses = (TextView) v.findViewById(R.id.analytic_screen_result_amount_expanses);
                 TextView description = (TextView) v.findViewById(R.id.analytic_screen_result_description);
+                TextView date = (TextView) v.findViewById(R.id.analytic_screen_result_date);
+                ImageView imageView = (ImageView) v.findViewById(R.id.asr_item_image);
 
                 if (description != null) {
-                    description.setText(dataSetResult.category + "["  + dataSetResult.date_from + " - "+ dataSetResult.date_to + "]");
+                    description.setText(dataSetResult.category );
+                }
+
+                String earnings;
+                String expanses;
+                String buffer="";
+                earnings = "Earnings: " + processEnteredAmount(dataSetResult.amount_earnings) + " EU";
+                expanses = "Expanses: " + processEnteredAmount(dataSetResult.amount_expanses) + " EU";
+                Integer differenceInLength = earnings.length()-1-expanses.length();
+                Integer absDifferenceInLength = (differenceInLength < 0) ? -differenceInLength : differenceInLength;
+                for(Integer iterator=0; iterator<(absDifferenceInLength*2); iterator++)
+                    buffer=buffer+" ";
+
+                if(differenceInLength > 0){
+                    expanses = "Expanses: " + buffer + processEnteredAmount(dataSetResult.amount_expanses) + " EU";
+                }else if(differenceInLength < 0){
+                    earnings = "Earnings: " + buffer + processEnteredAmount(dataSetResult.amount_earnings) + " EU";
+                }
+
+                if(date != null) {
+                    date.setText(dataSetResult.date_from + " - " + dataSetResult.date_to);
                 }
 
                 if(amount_earnings != null) {
-                    amount_earnings.setText("Earnings: " + processEnteredAmount(dataSetResult.amount_earnings) + " EU" );
+                    amount_earnings.setText(earnings);
                 }
 
                 if(amount_expanses != null) {
-                    amount_expanses.setText("Expanses: " + processEnteredAmount(dataSetResult.amount_expanses) + " EU" );
+                    amount_expanses.setText(expanses);
                 }
 
-                /*
-                if(dataSet.expanse.toCharArray()[0] == 'T')
-                    imageView.setBackgroundResource(R.mipmap.ic_minus);
-                else if(dataSet.expanse.toCharArray()[0] == 'F')
-                    imageView.setBackgroundResource(R.mipmap.ic_plus);
+                String[] stringArray = this.getContext().getResources().getStringArray(R.array.category_array);
+
+
+                if(dataSetResult.category.equals(stringArray[0]))
+                    imageView.setBackgroundResource(R.mipmap.other);
+                else if(dataSetResult.category.equals(stringArray[1]))
+                    imageView.setBackgroundResource(R.mipmap.car);
+                else if(dataSetResult.category.equals(stringArray[2]))
+                    imageView.setBackgroundResource(R.mipmap.food);
+                else if(dataSetResult.category.equals(stringArray[3]))
+                    imageView.setBackgroundResource(R.mipmap.sport);
+                else if(dataSetResult.category.equals(stringArray[4]))
+                    imageView.setBackgroundResource(R.mipmap.work);
+                else if(dataSetResult.category.equals(stringArray[5]))
+                    imageView.setBackgroundResource(R.mipmap.living);
+                else if(dataSetResult.category.equals(this.getContext().getResources().getString(R.string.asr_string_overall_sum)))
+                    imageView.setBackgroundResource(R.mipmap.sum);
                 else
                     imageView.setBackgroundResource(R.mipmap.ic_launcher);
-                    */
             }
 
             return v;
