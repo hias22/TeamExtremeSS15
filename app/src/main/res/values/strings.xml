@@ -19,7 +19,7 @@
     <string name="os_title">Overview Screen</string>
     <string name="ass_title">Analytic Screen</string>
     <string name="asr_title">Analytic Result Screen</string>
-    <string name="spinner_add_new_category">Add new category</string>
+    <string name="spinner_manage_category">Manage categories</string>
 
 
     <string-array name="category_array">

@@ -118,9 +118,28 @@ public class Utils {
                     }
                 }
                 if(addNew)
-                    categoryList.add(context.getResources().getString(R.string.spinner_add_new_category));
+                    categoryList.add(context.getResources().getString(R.string.spinner_manage_category));
             }
         }
+
+        return categoryList;
+    }
+
+    public ArrayList<String> createCustomerCategoryList(Context context) {
+
+        ArrayList<String> categoryList = new ArrayList<>();
+
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        String custom_categories = settings.getString(CATEGORIES, "");
+
+        if(custom_categories != "") {
+            String[] array_custom_categories = custom_categories.split(";");
+            for(String cate : array_custom_categories) {
+                if(cate != "")
+                    categoryList.add(cate);
+            }
+        }
+
 
         return categoryList;
     }
@@ -128,11 +147,30 @@ public class Utils {
     public void saveCustomCategory(Context context, String category) {
 
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
-        String custom_categories = settings.getString(CATEGORIES, "") + category + ";";
+        String custom_categories = category + ";" + settings.getString(CATEGORIES, "");
 
 
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(CATEGORIES, custom_categories);
+
+        editor.commit();
+    }
+
+    public void deleteCustomCategory(Context context, ArrayList<Integer> positionOfItemsToDelete) {
+
+        SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
+        String custom_categories_old = settings.getString(CATEGORIES, "");
+        String custom_categories_new = "";
+
+        String[] array_custom_categories = custom_categories_old.split(";");
+        for(Integer iterator = 0; iterator < array_custom_categories.length; iterator++) {
+            if(!positionOfItemsToDelete.contains(iterator))
+                custom_categories_new += array_custom_categories[iterator] + ";";
+        }
+
+
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString(CATEGORIES, custom_categories_new);
 
         editor.commit();
     }

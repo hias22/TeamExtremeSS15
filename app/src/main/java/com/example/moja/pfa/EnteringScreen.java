@@ -1,13 +1,17 @@
 package com.example.moja.pfa;
 
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.internal.widget.AdapterViewCompat;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,6 +49,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
     DataSet dataSetToManipulate;
     boolean isEnteredAmountAnExpanse;
     ImageButton imageButton;
+    Context this_context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,24 +70,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         editText_description = (EditText) findViewById(R.id.es_input_description);
 
 
-        //dropdown
-        spinner = (Spinner) findViewById(R.id.es_category_spinner);
-        ArrayList<String> categoryList = Utils.getInstance().createCategoryList(this, true);
-        ArrayAdapter<String> adapterString = new ArrayAdapter<String>
-                (this, android.R.layout.simple_spinner_item,categoryList);
-        adapterString.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapterString);
-
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(String.valueOf(spinner.getSelectedItem()).equals(parent.getResources().getString(R.string.spinner_add_new_category)))
-                    dropdownLastElementSelected();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
+        setSpinner();
 
         databaseInterface= new DatabaseInterface(this);
         databaseInterface.getDataCount();
@@ -131,6 +119,29 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
     }
 
+    private void setSpinner() {
+        //dropdown
+        spinner = (Spinner) findViewById(R.id.es_category_spinner);
+        ArrayList<String> categoryList = Utils.getInstance().createCategoryList(this, true);
+        ArrayAdapter<String> adapterString = new ArrayAdapter<String>
+                (this, android.R.layout.simple_spinner_item,categoryList);
+        adapterString.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapterString);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (String.valueOf(spinner.getSelectedItem()).equals(parent.getResources().getString(R.string.spinner_manage_category)))
+                    dropdownManageCategory();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -139,8 +150,96 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         return true;
     }
 
-    public void dropdownLastElementSelected(){
-        Toast.makeText(EnteringScreen.this, "do", Toast.LENGTH_LONG).show();
+    public void dropdownManageCategory(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter new category name");
+        this_context = this;
+        spinner.setSelection(0);
+        //final EditText input = new EditText(this);
+        //input.setInputType(InputType.TYPE_CLASS_TEXT);
+        //builder.setView(input);
+
+        builder.setPositiveButton("Add new category", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                addNewCategory();
+            }
+        });
+        builder.setNegativeButton("Delete category", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                deleteCategory();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void deleteCategory(){
+        ArrayList<String> items =Utils.getInstance().createCustomerCategoryList(this);
+        CharSequence[] csItems = items.toArray(new CharSequence[items.size()]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final ArrayList<Integer> deleteCategoryList = new ArrayList<Integer>();
+        builder.setTitle("Select categories to delete");
+        builder.setMultiChoiceItems(csItems, null,
+                new DialogInterface.OnMultiChoiceClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which,
+                                        boolean isChecked) {
+                        if (isChecked) {
+                           deleteCategoryList.add(which);
+                        } else if (deleteCategoryList.contains(which)) {
+                            deleteCategoryList.remove(Integer.valueOf(which));
+                        }
+                    }
+                });
+
+        builder.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                Utils.getInstance().deleteCustomCategory(this_context, deleteCategoryList);
+                setSpinner();
+                spinner.setSelection(0);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                spinner.setSelection(0);
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
+    }
+
+    public void addNewCategory(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter new category name");
+        this_context = this;
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String category_name = input.getText().toString();
+                Utils.getInstance().saveCustomCategory(this_context, category_name);
+                setSpinner();
+                spinner.setSelection(1);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                spinner.setSelection(0);
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 
     @Override
