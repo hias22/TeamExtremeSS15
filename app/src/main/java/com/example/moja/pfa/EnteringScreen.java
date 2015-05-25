@@ -4,6 +4,7 @@ package com.example.moja.pfa;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.internal.widget.AdapterViewCompat;
@@ -66,11 +67,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
         //dropdown
         spinner = (Spinner) findViewById(R.id.es_category_spinner);
-        String[] stringArray = this.getResources().getStringArray(R.array.category_array);
-        List<String> categoryList = new ArrayList<String>();
-        for(int iterator=0; iterator <stringArray.length; iterator++)
-            categoryList.add(stringArray[iterator]);
-        categoryList.add(this.getResources().getString(R.string.spinner_add_new_category));
+        ArrayList<String> categoryList = Utils.getInstance().createCategoryList(this, true);
         ArrayAdapter<String> adapterString = new ArrayAdapter<String>
                 (this, android.R.layout.simple_spinner_item,categoryList);
         adapterString.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -212,87 +209,13 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         return dialog;
     }
 
-    boolean amountInputValid(String amount){
 
-        if(amount.length()==0)
-            return false;
 
-        char[] amountArray =  amount.toCharArray();
 
-        if(amountArray[0]=='0'){
-            if(amountArray.length<3){
-                return false;
-            }else {
-                if (amountArray[1] != '.')
-                    return false;
-                if(amountArray.length == 3) {
-                    if (amountArray[2] == '0')
-                        return false;
-                }else{
-                    if((amountArray[2] == '0') && (amountArray[3] == '0') )
-                        return false;
-                }
-            }
-        }
-
-        if(amountArray[0]=='.'){
-            if(amountArray.length<2){
-                return false;
-            }else {
-                if(amountArray.length == 2) {
-                    if (amountArray[1] == '0')
-                        return false;
-                }else{
-                    if((amountArray[1] == '0') && (amountArray[2] == '0') )
-                        return false;
-                }
-            }
-        }
-
-        return true;
-    }
-
-    String processEnteredAmount(String inputString){
-
-        char[] inputStringArray =  inputString.toCharArray();
-        int pos = -1;
-        for(int i = 0; i < inputStringArray.length; i++) {
-            if(inputStringArray[i] == '.') {
-                pos = i;
-                break;
-            }
-        }
-
-        char[] outputStringArray;
-        if(pos == -1){
-            outputStringArray = new char[inputString.length()+3];
-            for(int j = 0; j < inputString.length(); ++j)
-                outputStringArray[j]=inputStringArray[j];
-            outputStringArray[inputString.length()+0]='.';
-            outputStringArray[inputString.length()+1]='0';
-            outputStringArray[inputString.length()+2]='0';
-        }else {
-            outputStringArray = new char[pos + 3];
-            for(int j = 0; j < pos+1; ++j)
-                outputStringArray[j]=inputStringArray[j];
-            if(inputStringArray.length < pos+2)
-                outputStringArray[pos+1]='0';
-            else
-                outputStringArray[pos+1]=inputStringArray[pos+1];
-            if(inputStringArray.length < pos+3)
-                outputStringArray[pos+2]='0';
-            else
-                outputStringArray[pos+2]=inputStringArray[pos+2];
-        }
-
-        String outputString=new String(outputStringArray);
-
-        return outputString;
-    }
 
     void storePressed(){
         Log.d(TAG, "storePressed");
-        if(amountInputValid(editText_amount.getText().toString())) {
+        if(Utils.getInstance().amountInputValid(editText_amount.getText().toString())) {
             String selected_date = "";
             if (date.getText().toString().equals("   today   ") == true) {
                 Calendar c = Calendar.getInstance();
@@ -309,7 +232,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             else
                 type="F";
 
-            String enteredAmount = processEnteredAmount(editText_amount.getText().toString());
+            String enteredAmount = Utils.getInstance().processEnteredAmount(editText_amount.getText().toString());
             DataSet dataSet = new DataSet(enteredAmount,
                     editText_description.getText().toString(),
                     spinner.getSelectedItem().toString(), selected_date, type);

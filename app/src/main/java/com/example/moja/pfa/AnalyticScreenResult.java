@@ -24,7 +24,6 @@ import java.util.List;
  */
 public class AnalyticScreenResult extends ActionBarActivity {
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,7 +39,7 @@ public class AnalyticScreenResult extends ActionBarActivity {
         dataSetList = databaseInterface.getDataFromDataBaseRequest(dataBaseRequest);
 
         ArrayList<DataSetResult> dataSetResultList = new ArrayList<DataSetResult>();
-        dataSetResultList = getResultsFromData(dataSetList, dataBaseRequest);
+        dataSetResultList = Utils.getInstance().getResultsFromData(this, dataSetList, dataBaseRequest);
 
         //listview:
 
@@ -151,17 +150,17 @@ public class AnalyticScreenResult extends ActionBarActivity {
                 String earnings;
                 String expanses;
                 String buffer="";
-                earnings = "Earnings: " + processEnteredAmount(dataSetResult.amount_earnings) + " EU";
-                expanses = "Expanses: " + processEnteredAmount(dataSetResult.amount_expanses) + " EU";
+                earnings = "Earnings: " + Utils.getInstance().processEnteredAmount(dataSetResult.amount_earnings) + " EU";
+                expanses = "Expanses: " + Utils.getInstance().processEnteredAmount(dataSetResult.amount_expanses) + " EU";
                 Integer differenceInLength = earnings.length()-1-expanses.length();
                 Integer absDifferenceInLength = (differenceInLength < 0) ? -differenceInLength : differenceInLength;
                 for(Integer iterator=0; iterator<(absDifferenceInLength*2); iterator++)
                     buffer=buffer+" ";
 
                 if(differenceInLength > 0){
-                    expanses = "Expanses: " + buffer + processEnteredAmount(dataSetResult.amount_expanses) + " EU";
+                    expanses = "Expanses: " + buffer + Utils.getInstance().processEnteredAmount(dataSetResult.amount_expanses) + " EU";
                 }else if(differenceInLength < 0){
-                    earnings = "Earnings: " + buffer + processEnteredAmount(dataSetResult.amount_earnings) + " EU";
+                    earnings = "Earnings: " + buffer + Utils.getInstance().processEnteredAmount(dataSetResult.amount_earnings) + " EU";
                 }
 
                 if(date != null) {
@@ -200,98 +199,8 @@ public class AnalyticScreenResult extends ActionBarActivity {
             return v;
         }
 
-        String processEnteredAmount(String inputString){
-
-            char[] inputStringArray =  inputString.toCharArray();
-            int pos = -1;
-            for(int i = 0; i < inputStringArray.length; i++) {
-                if(inputStringArray[i] == '.') {
-                    pos = i;
-                    break;
-                }
-            }
-
-            char[] outputStringArray;
-            if(pos == -1){
-                outputStringArray = new char[inputString.length()+3];
-                for(int j = 0; j < inputString.length(); ++j)
-                    outputStringArray[j]=inputStringArray[j];
-                outputStringArray[inputString.length()+0]='.';
-                outputStringArray[inputString.length()+1]='0';
-                outputStringArray[inputString.length()+2]='0';
-            }else {
-                outputStringArray = new char[pos + 3];
-                for(int j = 0; j < pos+1; ++j)
-                    outputStringArray[j]=inputStringArray[j];
-                if(inputStringArray.length < pos+2)
-                    outputStringArray[pos+1]='0';
-                else
-                    outputStringArray[pos+1]=inputStringArray[pos+1];
-                if(inputStringArray.length < pos+3)
-                    outputStringArray[pos+2]='0';
-                else
-                    outputStringArray[pos+2]=inputStringArray[pos+2];
-            }
-
-            String outputString=new String(outputStringArray);
-
-            return outputString;
-        }
 
     }
 
-    public ArrayList<DataSetResult> getResultsFromData(ArrayList<DataSet> dataSetList, DataBaseRequest dataBaseRequest){
-        ArrayList<DataSetResult> dataSetResultList = new ArrayList<DataSetResult>();
 
-        String[] stringArray = this.getResources().getStringArray(R.array.category_array);
-        Integer stringArrayLength = stringArray.length;
-        Double[] amountExpanses = new Double[stringArrayLength];
-        Double[] amountEarnings = new Double[stringArrayLength];
-        int iterator;
-        for(iterator=0; iterator<stringArrayLength; iterator++){
-            amountExpanses[iterator]=0.0;
-            amountEarnings[iterator]=0.0;
-        }
-        int iteratorCategory;
-        for(iterator=0; iterator<dataSetList.size(); iterator++){
-            for(iteratorCategory=0; iteratorCategory < stringArrayLength; iteratorCategory++){
-                if(stringArray[iteratorCategory].equals(dataSetList.get(iterator).category)){
-                    if(dataSetList.get(iterator).expanse.toCharArray()[0] == 'T'){
-                        amountExpanses[iteratorCategory]=amountExpanses[iteratorCategory]+ Double.valueOf(dataSetList.get(iterator).amount);
-                    }else if(dataSetList.get(iterator).expanse.toCharArray()[0] == 'F'){
-                        amountEarnings[iteratorCategory]=amountEarnings[iteratorCategory]+Double.valueOf(dataSetList.get(iterator).amount);
-                    }else{
-                        assert(true);
-                        assert(false);
-                    }
-
-                }
-            }
-
-        }
-
-        Double overAllSumExpanses = 0.0;
-        Double overAllSumEarnings = 0.0;
-        for(iterator=0; iterator < stringArray.length; iterator++){
-            DataSetResult dataSetResult = new DataSetResult();
-            dataSetResult.date_from=dataBaseRequest.date_from;
-            dataSetResult.date_to=dataBaseRequest.date_to;
-            dataSetResult.category=stringArray[iterator];
-            overAllSumExpanses=overAllSumExpanses+amountExpanses[iterator];
-            overAllSumEarnings=overAllSumEarnings+amountEarnings[iterator];
-            dataSetResult.amount_earnings=String.valueOf(amountEarnings[iterator]);
-            dataSetResult.amount_expanses=String.valueOf(amountExpanses[iterator]);
-            dataSetResultList.add(dataSetResult);
-        }
-
-        DataSetResult dataSetResultOverallSum = new DataSetResult();
-        dataSetResultOverallSum.date_from=dataBaseRequest.date_from;
-        dataSetResultOverallSum.date_to=dataBaseRequest.date_to;
-        dataSetResultOverallSum.category=this.getResources().getString(R.string.asr_string_overall_sum);
-        dataSetResultOverallSum.amount_earnings=String.valueOf(overAllSumEarnings);
-        dataSetResultOverallSum.amount_expanses=String.valueOf(overAllSumExpanses);
-        dataSetResultList.add(dataSetResultOverallSum);
-
-        return dataSetResultList;
-    }
 }
