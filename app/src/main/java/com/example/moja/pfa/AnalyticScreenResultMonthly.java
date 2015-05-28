@@ -3,7 +3,6 @@ package com.example.moja.pfa;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,30 +22,24 @@ import java.util.List;
 /**
  * Created by Mathias on 09.05.2015.
  */
-public class AnalyticScreenResult extends ActionBarActivity {
-    DataBaseRequest dataBaseRequest;
+public class AnalyticScreenResultMonthly extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.analytic_screen_result);
 
-        setTitle(R.string.asr_title);
+        setTitle(R.string.asrm_title);
 
         Intent intent = getIntent();
-        dataBaseRequest = intent.getParcelableExtra("dataBaseRequest");
-
-        ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
-        DatabaseInterface databaseInterface = new DatabaseInterface(this);
-        dataSetList = databaseInterface.getDataFromDataBaseRequest(dataBaseRequest);
+        DataBaseRequest dataBaseRequest = intent.getParcelableExtra("dataBaseRequest");
 
         ArrayList<DataSetResult> dataSetResultList = new ArrayList<DataSetResult>();
-        dataSetResultList = Utils.getInstance().getResultsFromData(this, dataSetList, dataBaseRequest);
+        dataSetResultList = Utils.getInstance().transformDatasetToMonthlyDataset(this, dataBaseRequest);
 
         //listview:
 
         final ListView listview = (ListView) findViewById(R.id.analytic_screen_result_list_view);
-
 
         final StableArrayAdapter adapter = new StableArrayAdapter(this, android.R.layout.simple_list_item_1, dataSetResultList);
         listview.setAdapter(adapter);
@@ -104,11 +97,7 @@ public class AnalyticScreenResult extends ActionBarActivity {
     }
 
     public void reactOnListViewItemSelected(DataSetResult dataSetResult) {
-        Intent intent = new Intent(this, AnalyticScreenResultMonthly.class);
-        dataBaseRequest.category=dataSetResult.category;
-        intent.putExtra("dataBaseRequest",(Parcelable) dataBaseRequest);
-        startActivity(intent);
-        //Toast.makeText(AnalyticScreenResult.this, "Functionality not implemented jet.", Toast.LENGTH_LONG).show();
+        Toast.makeText(AnalyticScreenResultMonthly.this, "Functionality not implemented jet.", Toast.LENGTH_LONG).show();
     }
 
 
@@ -136,7 +125,7 @@ public class AnalyticScreenResult extends ActionBarActivity {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.analytic_screen_result_item, null);
+                v = vi.inflate(R.layout.analytic_screen_result_monthly_item, null);
             }
 
             DataSetResult dataSetResult = mIdMap.get(position);
@@ -145,12 +134,12 @@ public class AnalyticScreenResult extends ActionBarActivity {
             if (dataSetResult != null) {
                 TextView amount_earnings = (TextView) v.findViewById(R.id.analytic_screen_result_amount_earnings);
                 TextView amount_expanses = (TextView) v.findViewById(R.id.analytic_screen_result_amount_expanses);
-                TextView description = (TextView) v.findViewById(R.id.analytic_screen_result_description);
-                TextView date = (TextView) v.findViewById(R.id.analytic_screen_result_date);
+                TextView date = (TextView) v.findViewById(R.id.analytic_screen_result_description);
+                TextView category = (TextView) v.findViewById(R.id.analytic_screen_result_date);
                 ImageView imageView = (ImageView) v.findViewById(R.id.asr_item_image);
 
-                if (description != null) {
-                    description.setText(dataSetResult.category );
+                if (category != null) {
+                    category.setText(dataSetResult.category );
                 }
 
                 String earnings;
@@ -170,7 +159,10 @@ public class AnalyticScreenResult extends ActionBarActivity {
                 }
 
                 if(date != null) {
-                    date.setText(dataSetResult.date_from + " - " + dataSetResult.date_to);
+                    if(!dataSetResult.date_from.equals(dataSetResult.date_to))
+                        date.setText(dataSetResult.date_from + " - " + dataSetResult.date_to);
+                    else
+                        date.setText(dataSetResult.date_from.substring(3));
                 }
 
                 if(amount_earnings != null) {

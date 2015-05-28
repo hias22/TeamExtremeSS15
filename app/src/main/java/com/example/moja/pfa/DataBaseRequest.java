@@ -9,11 +9,12 @@ import android.os.Parcelable;
 public class DataBaseRequest  implements Parcelable{
     String date_from;
     String date_to;
-
+    String category;
 
     public DataBaseRequest(String date_from, String date_to){
         this.date_from = date_from;
         this.date_to = date_to;
+        this.category = "";
     }
 
     public DataBaseRequest(){}
@@ -25,6 +26,7 @@ public class DataBaseRequest  implements Parcelable{
     public void writeToParcel(Parcel out, int flags) {
         out.writeString(date_from);
         out.writeString(date_to);
+        out.writeString(category);
     }
 
     public static final Parcelable.Creator<DataBaseRequest> CREATOR = new Parcelable.Creator<DataBaseRequest>() {
@@ -40,5 +42,6 @@ public class DataBaseRequest  implements Parcelable{
     private DataBaseRequest(Parcel in) {
         this.date_from=in.readString();
         this.date_to=in.readString();
+        this.category=in.readString();
     }
 }

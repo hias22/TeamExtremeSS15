@@ -3,6 +3,7 @@ package com.example.moja.pfa.uitest;
 import android.test.ActivityInstrumentationTestCase2;
 
 import com.example.moja.pfa.EnteringScreen;
+import com.example.moja.pfa.R;
 import com.robotium.solo.Solo;
 
 /**
@@ -36,10 +37,12 @@ public class ScreenTransitionTestUI extends ActivityInstrumentationTestCase2 {
         mySolo.waitForActivity("EnteringScreen");
         String amount = "12.12";
         String description = "unique";
-        mySolo.enterText(1, amount);
-        mySolo.enterText(3, description);
-        mySolo.clickOnButton(0);
-        mySolo.clickOnActionBarItem(1);
+        //mySolo.enterText(1, amount);
+        //mySolo.enterText(3, description);
+        //mySolo.clickOnButton(0);
+        mySolo.clickOnActionBarItem(R.id.action_bar_activity_content);
+        //mySolo.clickOnActionBarItem(R.id.action_overview);
+        //getInstrumentation().invokeMenuActionSync(mySolo.getCurrentActivity(), R.id.action_overview, 0);
         mySolo.waitForActivity("DataOverviewScreen");
         boolean amountBool = mySolo.searchText(amount);
         boolean descriptionBool = mySolo.searchText(description);
@@ -54,7 +57,7 @@ public class ScreenTransitionTestUI extends ActivityInstrumentationTestCase2 {
         mySolo.enterText(1, amount);
         mySolo.enterText(3, description);
         mySolo.clickOnButton(0);
-        mySolo.clickOnActionBarItem(1);
+        mySolo.clickOnActionBarItem(R.id.action_overview);
         mySolo.waitForActivity("DataOverviewScreen");
         boolean amountBool = mySolo.searchText(amount);
         boolean descriptionBool = mySolo.searchText(description);

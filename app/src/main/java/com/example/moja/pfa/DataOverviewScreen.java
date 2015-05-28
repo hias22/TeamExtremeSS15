@@ -144,7 +144,7 @@ public class DataOverviewScreen extends ActionBarActivity {
                 }
 
                 if(amount != null) {
-                    amount.setText(processEnteredAmount(dataSet.amount) + " EU" );
+                    amount.setText(Utils.getInstance().processEnteredAmount(dataSet.amount) + " EU" );
                 }
 
                 if(dataSet.expanse.toCharArray()[0] == 'T')
@@ -158,43 +158,6 @@ public class DataOverviewScreen extends ActionBarActivity {
             return v;
         }
 
-        String processEnteredAmount(String inputString){
-
-            char[] inputStringArray =  inputString.toCharArray();
-            int pos = -1;
-            for(int i = 0; i < inputStringArray.length; i++) {
-                if(inputStringArray[i] == '.') {
-                    pos = i;
-                    break;
-                }
-            }
-
-            char[] outputStringArray;
-            if(pos == -1){
-                outputStringArray = new char[inputString.length()+3];
-                for(int j = 0; j < inputString.length(); ++j)
-                    outputStringArray[j]=inputStringArray[j];
-                outputStringArray[inputString.length()+0]='.';
-                outputStringArray[inputString.length()+1]='0';
-                outputStringArray[inputString.length()+2]='0';
-            }else {
-                outputStringArray = new char[pos + 3];
-                for(int j = 0; j < pos+1; ++j)
-                    outputStringArray[j]=inputStringArray[j];
-                if(inputStringArray.length < pos+2)
-                    outputStringArray[pos+1]='0';
-                else
-                    outputStringArray[pos+1]=inputStringArray[pos+1];
-                if(inputStringArray.length < pos+3)
-                    outputStringArray[pos+2]='0';
-                else
-                    outputStringArray[pos+2]=inputStringArray[pos+2];
-            }
-
-            String outputString=new String(outputStringArray);
-
-            return outputString;
-        }
 
     }
 }

@@ -38,6 +38,7 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
         setTitle(R.string.ass_title);
 
         dateFrom=(TextView)findViewById(R.id.date_from);
+        dateFrom.setText(Utils.getInstance().getDateFromNMonthAgo(3));
         dateTo=(TextView)findViewById(R.id.date_to);
         datepickerFrom=(ImageView)findViewById(R.id.ass_datepicker_from);
         datepickerFrom.setOnClickListener(this);

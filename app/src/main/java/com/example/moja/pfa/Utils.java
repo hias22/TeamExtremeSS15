@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 /**
  * Created by Mathias on 25.05.2015.
@@ -197,10 +198,8 @@ public class Utils {
                         amountExpanses[iteratorCategory]=amountExpanses[iteratorCategory]+ Double.valueOf(dataSetList.get(iterator).amount);
                     }else if(dataSetList.get(iterator).expanse.toCharArray()[0] == 'F'){
                         amountEarnings[iteratorCategory]=amountEarnings[iteratorCategory]+Double.valueOf(dataSetList.get(iterator).amount);
-                    }else{
-                        assert(true);
+                    }else
                         assert(false);
-                    }
 
                 }
             }
@@ -230,6 +229,85 @@ public class Utils {
         dataSetResultList.add(dataSetResultOverallSum);
 
         return dataSetResultList;
+    }
+
+    public ArrayList<DataSetResult> transformDatasetToMonthlyDataset(Context context, DataBaseRequest dataBaseRequest) {
+
+        ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
+        DatabaseInterface databaseInterface = new DatabaseInterface(context);
+        dataSetList = databaseInterface.getDataFromDataBaseRequest(dataBaseRequest);
+
+
+        Date startingDate = new Date(dataBaseRequest.date_from);
+        Date endDate = new Date(dataBaseRequest.date_to);
+
+        ArrayList<DataSetResult> dataSetResultList = new ArrayList<DataSetResult>();
+
+        String requestedCategory = dataBaseRequest.category;
+
+        Integer noOfMonth = endDate.getNoOfMonthBetween(startingDate, endDate);
+        Double[] amountExpanses = new Double[noOfMonth];
+        Double[] amountEarnings = new Double[noOfMonth];
+        int iterator;
+        for(iterator=0; iterator<noOfMonth; iterator++){
+            amountExpanses[iterator]=0.0;
+            amountEarnings[iterator]=0.0;
+        }
+        Integer position=0;
+        Date currentDate;
+        for(iterator=0; iterator<dataSetList.size(); iterator++){
+            if(requestedCategory.equals(dataSetList.get(iterator).category)){
+                if(dataSetList.get(iterator).expanse.toCharArray()[0] == 'T'){
+                    currentDate = new Date(dataSetList.get(iterator).date);
+                    position = currentDate.noOfMonthInRange(startingDate);
+                    amountExpanses[position]=amountExpanses[position]+ Double.valueOf(dataSetList.get(iterator).amount);
+                }else if(dataSetList.get(iterator).expanse.toCharArray()[0] == 'F'){
+                    currentDate = new Date(dataSetList.get(iterator).date);
+                    position = currentDate.noOfMonthInRange(startingDate);
+                    amountEarnings[position]=amountEarnings[position]+ Double.valueOf(dataSetList.get(iterator).amount);
+                }else
+                    assert(false);
+            }
+        }
+
+        Double overAllSumExpanses = 0.0;
+        Double overAllSumEarnings = 0.0;
+        for(iterator=0; iterator < noOfMonth; iterator++){
+            DataSetResult dataSetResult = new DataSetResult();
+            dataSetResult.date_from = startingDate.addMonth(iterator);
+            dataSetResult.date_to = startingDate.addMonth(iterator);
+            dataSetResult.category=requestedCategory;
+            overAllSumExpanses=overAllSumExpanses+amountExpanses[iterator];
+            overAllSumEarnings=overAllSumEarnings+amountEarnings[iterator];
+            dataSetResult.amount_earnings=String.valueOf(amountEarnings[iterator]);
+            dataSetResult.amount_expanses=String.valueOf(amountExpanses[iterator]);
+            dataSetResultList.add(dataSetResult);
+        }
+
+        DataSetResult dataSetResultOverallSum = new DataSetResult();
+        dataSetResultOverallSum.date_from=startingDate.addMonth(0);
+        dataSetResultOverallSum.date_to=endDate.addMonth(0);
+        dataSetResultOverallSum.category=requestedCategory;
+        dataSetResultOverallSum.amount_earnings=String.valueOf(overAllSumEarnings);
+        dataSetResultOverallSum.amount_expanses=String.valueOf(overAllSumExpanses);
+        dataSetResultList.add(dataSetResultOverallSum);
+
+        return dataSetResultList;
+
+    }
+
+    public String getDateFromNMonthAgo(int i) {
+        Calendar c = Calendar.getInstance();
+        int month = c.get(Calendar.MONTH) + 1-i;
+        int year = c.get(Calendar.YEAR);
+        while(month<1){
+            month=month+12;
+            year--;
+        }
+        int day = c.get(Calendar.DAY_OF_MONTH);
+        Date today = new Date(day, month, year);
+
+        return today.toString();
     }
 
 }

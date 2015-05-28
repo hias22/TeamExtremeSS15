@@ -90,4 +90,39 @@ public class Date {
         return booleanValue;
     }
 
+    public Integer getNoOfMonthBetween(Date startingDate, Date endDate) {
+        return (endDate.year-startingDate.year)*12+(endDate.month-startingDate.month)+1;
+    }
+
+    public Integer noOfMonthInRange(Date startingDate) {
+        return (this.year-startingDate.year)*12+(this.month-startingDate.month);
+    }
+
+    public String addMonth(int iterator) {
+
+        int month = (this.month + iterator-1)%12 +1;
+        int year = this.year + (this.month + iterator-1)/12;
+        Date temp = new Date(day, month, year);
+
+        return temp.toString();
+    }
+
+    public String toString(){
+        String dateToReturn="";
+        if(day>9)
+            dateToReturn+=day.toString();
+        else
+            dateToReturn+= "0"+day.toString();
+
+        dateToReturn+="/";
+
+        if(month>9)
+            dateToReturn+=month.toString();
+        else
+            dateToReturn+= "0"+month.toString();
+
+        dateToReturn+="/"+year.toString();
+
+        return dateToReturn;
+    }
 }
