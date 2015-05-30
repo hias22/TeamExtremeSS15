@@ -54,7 +54,12 @@ public class Utils {
                 outputStringArray[pos+2]=inputStringArray[pos+2];
         }
 
+
+
         String outputString=new String(outputStringArray);
+
+        if(outputStringArray[0]=='.')
+            outputString="0"+outputString;
 
         return outputString;
     }
@@ -310,4 +315,22 @@ public class Utils {
         return today.toString();
     }
 
+    public String[] createDescriptionOutput(String description) {
+        String[] return_description = new String[2];
+        return_description[0] = return_description[1] = "";
+        String[] tmp_description = description.split(" ");
+
+        for(String words : tmp_description) {
+            if(return_description[0].length() + words.length() < 50)
+                return_description[0] += " " + words;
+            else if(return_description[1].length() + words.length() < 47)
+                return_description[1] += " " + words;
+            else {
+                return_description[1] += " ...";
+                break;
+            }
+        }
+
+        return return_description;
+    }
 }

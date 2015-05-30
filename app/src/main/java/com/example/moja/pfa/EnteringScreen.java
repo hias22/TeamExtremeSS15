@@ -13,9 +13,11 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.internal.widget.AdapterViewCompat;
 import android.text.InputType;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -226,6 +228,10 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 String category_name = input.getText().toString();
+                if(category_name.contains(";")){
+                    Toast.makeText(EnteringScreen.this, "Category must not contain a ';'" ,Toast.LENGTH_LONG).show();
+                    return;
+                }
                 Utils.getInstance().saveCustomCategory(this_context, category_name);
                 setSpinner();
                 spinner.setSelection(1);
@@ -296,10 +302,11 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 int year=c.get(Calendar.YEAR);
                 int monthOfYear=c.get(Calendar.MONTH);
                 int dayOfMonth=c.get(Calendar.DAY_OF_MONTH);
+                final Date dateEntered = new Date(dayOfMonth,monthOfYear,year);
                 dialog=new DatePickerDialog(EnteringScreen.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
-                        String selecteddate=(String.valueOf(dayOfMonth)).concat("/").concat(String.valueOf(monthOfYear+1)).concat("/").concat(String.valueOf(year));
+                        String selecteddate=(dateEntered.toString());
                         date.setText(selecteddate);
                     }
                 }, year, monthOfYear, dayOfMonth);

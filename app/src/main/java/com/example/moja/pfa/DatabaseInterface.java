@@ -73,9 +73,10 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues values = new ContentValues();
+        Date date = new Date(dataSet.date);
         values.put(DatabaseEntry.COLUMN_NAME_AMOUNT, dataSet.amount);
         values.put(DatabaseEntry.COLUMN_NAME_CATEGORY, dataSet.category);
-        values.put(DatabaseEntry.COLUMN_NAME_DATE, dataSet.date);
+        values.put(DatabaseEntry.COLUMN_NAME_DATE, date.toString());
         values.put(DatabaseEntry.COLUMN_NAME_DESCRIPTION, dataSet.description);
         values.put(DatabaseEntry.COLUMN_NAME_TYPE, dataSet.expanse);
 

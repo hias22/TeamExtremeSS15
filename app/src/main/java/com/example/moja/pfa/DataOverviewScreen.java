@@ -135,16 +135,32 @@ public class DataOverviewScreen extends ActionBarActivity {
 
 
             if (dataSet != null) {
-                TextView description_category = (TextView) v.findViewById(R.id.data_overview_screen_description);
+                TextView description1 = (TextView) v.findViewById(R.id.data_overview_screen_description1);
+                TextView description2 = (TextView) v.findViewById(R.id.data_overview_screen_description2);
                 TextView amount = (TextView) v.findViewById(R.id.data_overview_screen_amount);
+                TextView category = (TextView) v.findViewById(R.id.data_overview_screen_category);
+                TextView date = (TextView) v.findViewById(R.id.data_overview_screen_date);
                 ImageView imageView = (ImageView)  v.findViewById(R.id.item_image);
 
-                if (description_category != null) {
-                    description_category.setText(dataSet.description + "["  + dataSet.category + "] - "+ dataSet.date);
+                String[] descriptionArray = Utils.getInstance().createDescriptionOutput(dataSet.description);
+
+                if (description1 != null) {
+                    description1.setText(descriptionArray[0]);
+                }
+                if (description2 != null) {
+                    description2.setText(descriptionArray[1]);
                 }
 
                 if(amount != null) {
-                    amount.setText(Utils.getInstance().processEnteredAmount(dataSet.amount) + " EU" );
+                    amount.setText(Utils.getInstance().processEnteredAmount(dataSet.amount) + " EUR" );
+                }
+
+                if (category != null) {
+                    category.setText(dataSet.category);
+                }
+
+                if(date != null) {
+                    date.setText(dataSet.date);
                 }
 
                 if(dataSet.expanse.toCharArray()[0] == 'T')
