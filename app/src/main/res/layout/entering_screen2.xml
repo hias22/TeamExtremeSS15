@@ -1,0 +1,156 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
+    android:background="@color/es">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        >
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/es_transaction_amount"
+            android:layout_marginTop="40dp"
+            android:text="@string/es_string_transaction_amount"
+            android:editable="false"
+            android:layout_alignParentTop="true"
+            android:layout_alignLeft="@+id/es_input_transaction_amount"
+            android:layout_alignStart="@+id/es_input_transaction_amount"
+            android:textSize="20dp"
+            android:textColor="@color/text" />
+
+        <TableLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:layout_gravity="center_horizontal">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/es_image_button"
+                    android:layout_gravity="center"/>
+
+                <EditText
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:ems="12"
+                    android:id="@+id/es_input_transaction_amount"
+                    android:maxLines="1"
+                    android:textColor="@color/text"
+                    android:layout_gravity="right"/>
+            </TableRow>
+
+        </TableLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/es_description"
+            android:text="@string/es_string_description"
+            android:textSize="20dp"
+            android:textColor="@color/text"/>
+
+        <TableLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal">
+
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:padding="5dip"
+                android:gravity="right">
+
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/es_input_description"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="3"
+                    android:textColor="@color/text"
+                    android:ems="12"/>
+            </TableRow>
+        </TableLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/es_datepicker"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@mipmap/calendar"
+                android:layout_marginTop="0dp"
+             />
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="   today   "
+                android:textColor="@color/text"
+                android:textSize="28sp"
+                android:layout_alignBottom="@+id/es_datepicker"
+                android:layout_alignLeft="@+id/es_button_clear"
+                android:layout_alignStart="@+id/es_button_clear" />
+
+        </LinearLayout>
+
+        <Spinner
+            android:id="@+id/es_category_spinner"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:spinnerMode="dropdown"
+            android:layout_above="@+id/es_button_store"
+            android:layout_alignLeft="@+id/es_input_description"
+            android:layout_alignStart="@+id/es_input_description"
+            android:textColor="@color/text"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/es_string_button_store"
+            android:id="@+id/es_button_store"
+            android:layout_above="@+id/es_button_clear"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/text"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/es_string_button_clear"
+            android:id="@+id/es_button_clear"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/text"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -60,6 +60,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
 
         setTitle(R.string.es_title);
 
+
         date=(TextView)findViewById(R.id.date);
         datepicker=(ImageView)findViewById(R.id.es_datepicker);
         datepicker.setOnClickListener(this);

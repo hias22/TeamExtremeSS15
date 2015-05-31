@@ -5,7 +5,8 @@
     android:layout_width="wrap_content"
     android:paddingBottom="5px"
     android:paddingTop="5px"
-    android:paddingLeft="5px">
+    android:paddingLeft="5px"
+    android:background="@color/asrm">
 
     <ImageView
     android:id="@+id/asr_item_image"
@@ -33,13 +34,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:textColor="@color/text"/>
 
             <TextView android:id="@+id/analytic_screen_result_date"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:gravity="right|center"
-                android:textSize="8sp"/>
+                android:textSize="8sp"
+                android:textColor="@color/text"/>
 
         </LinearLayout>
 
