@@ -1,6 +1,7 @@
 package com.example.moja.pfa;
 
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
@@ -8,6 +9,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.internal.widget.AdapterViewCompat;
@@ -59,7 +61,6 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         setContentView(R.layout.entering_screen);
 
         setTitle(R.string.es_title);
-
 
         date=(TextView)findViewById(R.id.date);
         datepicker=(ImageView)findViewById(R.id.es_datepicker);
@@ -119,6 +120,8 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 }
             }
         });
+
+
 
     }
 

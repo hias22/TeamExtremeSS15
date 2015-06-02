@@ -5,4 +5,22 @@
         <!-- Customize your theme here. -->
     </style>
 
+
+    <!-- Base application theme.
+    <style name="EnteringScreenTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/ActionbarStyleOrange</item>
+    </style>
+
+    <style name="ActionbarStyleOrange" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/actionbarES</item>
+    </style>-->
+
+    <style name="MyTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
+    </style>
+
+    <style name="MyActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:background">@color/actionbarES</item>
+    </style>
+
 </resources>

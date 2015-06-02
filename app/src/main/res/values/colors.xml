@@ -9,4 +9,5 @@
     <color name="asrm">#FF29FFEF</color>
     <color name="text">#FF000000</color>
     <color name="button">#FFFF7F24</color>
+    <color name="actionbarES">#FFFF7F24</color>
 </resources>
