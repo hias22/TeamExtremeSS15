@@ -6,7 +6,7 @@
     android:paddingBottom="5px"
     android:paddingTop="5px"
     android:paddingLeft="5px"
-    android:background="@color/asrm">
+    android:background="@color/asr_even">
 
     <ImageView
     android:id="@+id/asr_item_image"

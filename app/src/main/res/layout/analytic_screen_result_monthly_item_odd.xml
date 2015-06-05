@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
+    android:gravity="left|center"
+    android:layout_width="wrap_content"
+    android:paddingBottom="5px"
+    android:paddingTop="5px"
+    android:paddingLeft="5px"
+    android:background="@color/asr_odd">
+
+    <ImageView
+    android:id="@+id/asr_item_image"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    android:layout_marginRight="6dip"
+    xmlns:android="http://schemas.android.com/apk/res/android" />
+
+    <!--android:src="@mipmap/ic_launcher"-->
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_weight="1"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_weight="1"
+            android:layout_height="fill_parent">
+
+            <TextView android:id="@+id/analytic_screen_result_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textColor="@color/text"/>
+
+            <TextView android:id="@+id/analytic_screen_result_date"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right|center"
+                android:textSize="8sp"
+                android:textColor="@color/text"/>
+
+        </LinearLayout>
+
+        <TextView android:id="@+id/analytic_screen_result_amount_earnings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:textColor="#0099CC"
+            android:textSize="8sp"/>
+
+        <TextView android:id="@+id/analytic_screen_result_amount_expanses"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10px"
+            android:textColor="#0099CC"
+            android:textSize="8sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="green">#ffbdffb3</color>
+    <color name="white">#ffffffff</color>
     <color name="red">#ffffd1d7</color>
-    <color name="es">#FF29FFEF</color>
-    <color name="os">#FF29FFEF</color>
+    <color name="es">#4429FFEF</color>
+    <color name="os">#44000000</color>
     <color name="ass">#FF29FFEF</color>
-    <color name="asr">#FF29FFEF</color>
+    <color name="asr">#44000000</color>
+    <color name="asr_odd">#44FF7F24</color>
+    <color name="asr_even">#4429FFEF</color>
     <color name="asrm">#FF29FFEF</color>
     <color name="text">#FF000000</color>
-    <color name="button">#FFFF7F24</color>
+    <color name="button">#AAFF7F24</color>
     <color name="actionbarES">#FFFF7F24</color>
 </resources>

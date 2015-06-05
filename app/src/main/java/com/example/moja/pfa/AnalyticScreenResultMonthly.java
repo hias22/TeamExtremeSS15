@@ -125,7 +125,11 @@ public class AnalyticScreenResultMonthly extends ActionBarActivity {
             View v = convertView;
             if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(R.layout.analytic_screen_result_monthly_item, null);
+                if(position%2==0)
+                    v = vi.inflate(R.layout.analytic_screen_result_monthly_item_even, null);
+                else
+                    v = vi.inflate(R.layout.analytic_screen_result_monthly_item_odd, null);
+
             }
 
             DataSetResult dataSetResult = mIdMap.get(position);
