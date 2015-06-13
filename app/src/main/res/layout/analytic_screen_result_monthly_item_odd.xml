@@ -3,10 +3,10 @@
     android:layout_height="wrap_content"
     android:gravity="left|center"
     android:layout_width="wrap_content"
-    android:paddingBottom="5px"
-    android:paddingTop="5px"
+    android:paddingBottom="30px"
+    android:paddingTop="30px"
     android:paddingLeft="5px"
-    android:background="@color/asr_odd">
+    android:background="#ffebebeb">
 
     <ImageView
     android:id="@+id/asr_item_image"

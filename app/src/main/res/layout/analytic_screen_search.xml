@@ -4,87 +4,100 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    android:background="@color/es">
+    android:background="@mipmap/background">
 
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/ass_from"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:paddingTop="20dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/ass_string_from"
-        android:editable="false"
-        android:textSize="20dp"
-        android:textColor="@color/text"/>
+        android:id="@+id/ass_from"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
-    <TextView
-        android:id="@+id/date_from"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="   today   "
-        android:textColor="@color/text"
-        android:textSize="28sp"
+        android:paddingTop="10dp"
         android:layout_below="@+id/ass_from"
-        android:layout_alignLeft="@+id/ass_ok_button"
-        android:layout_alignStart="@+id/ass_ok_button"
-        android:layout_marginLeft="41dp"
-        android:layout_marginStart="41dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout2">
+
+        <ImageView
+            android:id="@+id/ass_datepicker_from"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/calendar" />
+
+        <TextView
+            android:id="@+id/date_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   today   "
+            android:paddingTop="9dp"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
         android:id="@+id/ass_to"
-        android:layout_marginTop="55dp"
         android:text="@string/ass_string_to"
-        android:layout_below="@+id/ass_from"
+        android:layout_below="@+id/linearLayout2"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:editable="false"
         android:textSize="20dp"
+        android:textStyle="bold"
         android:textColor="@color/text"/>
 
-    <TextView
-        android:id="@+id/date_to"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="   today   "
-        android:textColor="@color/text"
-        android:textSize="28sp"
-        android:layout_alignBottom="@+id/ass_datepicker_to"
-        android:layout_alignLeft="@+id/date_from"
-        android:layout_alignStart="@+id/date_from" />
+        android:paddingTop="10dp"
+        android:layout_below="@+id/ass_to"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/linearLayout3">
+
+        <ImageView
+            android:id="@+id/ass_datepicker_to"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@mipmap/calendar" />
+
+        <TextView
+            android:id="@+id/date_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="   today   "
+            android:paddingTop="9dp"
+            android:textColor="@android:color/black" />
+    </LinearLayout>
+
+
+
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/ass_string_ok_button"
         android:id="@+id/ass_ok_button"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="30dp"
         android:textColor="@color/text"
-        android:background="@color/button"
-        android:minWidth="100dp"
-        android:minHeight="100dp"/>
+        android:background="#ff5282ff"/>
 
-    <ImageView
-        android:id="@+id/ass_datepicker_from"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/calendar"
-        android:layout_alignTop="@+id/date_from"
-        android:layout_toRightOf="@+id/ass_from"
-        android:layout_toEndOf="@+id/ass_from" />
-
-    <ImageView
-        android:id="@+id/ass_datepicker_to"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@mipmap/calendar"
-        android:layout_below="@+id/ass_to"
-        android:layout_alignLeft="@+id/ass_datepicker_from"
-        android:layout_alignStart="@+id/ass_datepicker_from" />
 
 </RelativeLayout>

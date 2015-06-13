@@ -3,6 +3,7 @@
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@mipmap/background"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
 
@@ -115,7 +116,7 @@
             android:layout_height="wrap_content"
             android:text="   today   "
             android:paddingTop="9dp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="@android:color/black" />
     </LinearLayout>
 
     <LinearLayout
@@ -140,20 +141,26 @@
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/es_string_button_store"
             android:id="@+id/es_button_store"
             android:layout_above="@+id/es_button_clear"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:background="#ff5282ff" />
 
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:text="@string/es_string_button_clear"
             android:id="@+id/es_button_clear"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:background="#ffff7042" />
     </LinearLayout>
 
 
