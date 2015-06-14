@@ -264,7 +264,7 @@ public class Utils {
         Integer position;
         Date currentDate;
         for(iterator=0; iterator<dataSetList.size(); iterator++){
-            if(requestedCategory.equals(dataSetList.get(iterator).category)){
+            if(requestedCategory.equals(dataSetList.get(iterator).category) || requestedCategory.equals("Overall sum")){
                 if(dataSetList.get(iterator).expanse.toCharArray()[0] == 'T'){
                     currentDate = new Date(dataSetList.get(iterator).date);
                     position = currentDate.noOfMonthInRange(startingDate);
