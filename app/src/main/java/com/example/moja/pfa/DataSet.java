@@ -3,6 +3,8 @@ package com.example.moja.pfa;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Random;
+
 public class DataSet implements Parcelable {
     Integer dataBaseId;
     String amount;

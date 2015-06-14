@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public final class DatabaseInterface extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseInterface";
 
-    SQLiteDatabase sql_db;
+   // SQLiteDatabase sql_db;
 
     public static abstract class DatabaseEntry implements BaseColumns {
         public static final String TABLE_NAME = "datasets";
@@ -48,7 +48,6 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         Log.d(TAG, "onCreate");
         db.execSQL(SQL_CREATE_TABLE);
-        sql_db=db;
     }
 
 
@@ -131,7 +130,7 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     public ArrayList<DataSet> reverse(ArrayList<DataSet> oldDataSetList) {
         ArrayList<DataSet> newDataSetList = new ArrayList<DataSet>();
 
-        for (int i = oldDataSetList.size()-1; i > 0; --i) {
+        for (int i = oldDataSetList.size()-1; i >= 0; --i) {
             newDataSetList.add(oldDataSetList.get(i));
         }
 
@@ -142,7 +141,7 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     public int getDataCount() {
         Log.d(TAG, "getDataCount");
         String countQuery = "SELECT  * FROM " + DatabaseEntry.TABLE_NAME;
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(countQuery, null);
         int count = cursor.getCount();
         cursor.close();
@@ -151,8 +150,9 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
     }
 
     public void deleteDatabaseEntries(){
-        sql_db.execSQL(SQL_DELETE_ENTRIES);
-        onCreate(sql_db);
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL(SQL_DELETE_ENTRIES);
+        onCreate(db);
     }
 
     public int updateDataSet(DataSet dataSet) {
@@ -170,6 +170,7 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
 
     public void deleteDataSet(DataSet dataSet) {
         SQLiteDatabase db = this.getWritableDatabase();
+
         db.delete(DatabaseEntry.TABLE_NAME, DatabaseEntry._ID + " = ?",
                 new String[]{String.valueOf(dataSet.dataBaseId)});
         db.close();
