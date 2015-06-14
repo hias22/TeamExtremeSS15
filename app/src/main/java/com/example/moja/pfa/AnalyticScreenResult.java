@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -120,27 +121,23 @@ public class AnalyticScreenResult extends ActionBarActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                if(position%2==0)
-                    v = vi.inflate(R.layout.analytic_screen_result_item_even, null);
-                else
-                    v = vi.inflate(R.layout.analytic_screen_result_item_odd, null);
-            }
+            LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if(position%2==0)
+                convertView = vi.inflate(R.layout.analytic_screen_result_item_even, null);
+            else
+                convertView = vi.inflate(R.layout.analytic_screen_result_item_odd, null);
 
             DataSetResult dataSetResult = mIdMap.get(position);
 
-
             if (dataSetResult != null) {
-                TextView amount_earnings = (TextView) v.findViewById(R.id.analytic_screen_result_amount_earnings);
-                TextView amount_expanses = (TextView) v.findViewById(R.id.analytic_screen_result_amount_expanses);
-                TextView description = (TextView) v.findViewById(R.id.analytic_screen_result_description);
-                TextView date = (TextView) v.findViewById(R.id.analytic_screen_result_date);
-                ImageView imageView = (ImageView) v.findViewById(R.id.asr_item_image);
+                TextView amount_earnings = (TextView) convertView.findViewById(R.id.analytic_screen_result_amount_earnings);
+                TextView amount_expanses = (TextView) convertView.findViewById(R.id.analytic_screen_result_amount_expanses);
+                TextView description = (TextView) convertView.findViewById(R.id.analytic_screen_result_description);
+                TextView date = (TextView) convertView.findViewById(R.id.analytic_screen_result_date);
+                ImageView imageView = (ImageView) convertView.findViewById(R.id.asr_item_image);
 
                 if (description != null) {
-                    description.setText(dataSetResult.category );
+                    description.setText(dataSetResult.category);
                 }
 
                 String earnings;
@@ -192,7 +189,7 @@ public class AnalyticScreenResult extends ActionBarActivity {
                     imageView.setBackgroundResource(R.mipmap.user);
             }
 
-            return v;
+            return convertView;
         }
 
 

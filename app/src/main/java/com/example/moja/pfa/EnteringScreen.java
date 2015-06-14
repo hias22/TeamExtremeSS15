@@ -78,16 +78,13 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             dataSetToManipulate = intent.getParcelableExtra("dataSet");
             editText_amount.setText(dataSetToManipulate.amount);
             editText_description.setText(dataSetToManipulate.description);
-            String[] categories = getResources().getStringArray(R.array.category_array);
+            ArrayList<String> categories= Utils.getInstance().createCategoryList(this, true);
             if(dataSetToManipulate.expanse.toCharArray()[0] == 'F')
                 isEnteredAmountAnExpanse=false;
-            for(int position = 0; position < categories.length; ++position) {
-                if(categories[position].equals(dataSetToManipulate.category)) {
-                    if(position >= 1)
-                        spinner.setSelection(position + 1);
-                    else
-                        spinner.setSelection(position);
-                }
+
+            for(int position = 0; position < categories.size(); ++position) {
+                if(categories.get(position).equals(dataSetToManipulate.category))
+                    spinner.setSelection(position);
             }
             date.setText(dataSetToManipulate.date);
         }
