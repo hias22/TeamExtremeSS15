@@ -127,22 +127,23 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
         int year=c.get(Calendar.YEAR);
         int monthOfYear=c.get(Calendar.MONTH);
         int dayOfMonth=c.get(Calendar.DAY_OF_MONTH);
-        final Date dateEntered = new Date(dayOfMonth,monthOfYear,year);
         switch(id)
         {
             case 1:
-                dialog = new DatePickerDialog(AnalyticScreenSearch.this, new DatePickerDialog.OnDateSetListener() {
+                dialog=new DatePickerDialog(AnalyticScreenSearch.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
+                        Date dateEntered = new Date(view.getDayOfMonth(),view.getMonth() + 1,view.getYear());
                         String selecteddate=(dateEntered.toString());
                         dateFrom.setText(selecteddate);
                     }
                 }, year, monthOfYear, dayOfMonth);
                 break;
             case 2:
-                dialog = new DatePickerDialog(AnalyticScreenSearch.this, new DatePickerDialog.OnDateSetListener() {
+                dialog=new DatePickerDialog(AnalyticScreenSearch.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
+                        Date dateEntered = new Date(view.getDayOfMonth(),view.getMonth() + 1,view.getYear());
                         String selecteddate=(dateEntered.toString());
                         dateTo.setText(selecteddate);
                     }

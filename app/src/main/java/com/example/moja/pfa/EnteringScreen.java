@@ -287,10 +287,10 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 int year=c.get(Calendar.YEAR);
                 int monthOfYear=c.get(Calendar.MONTH);
                 int dayOfMonth=c.get(Calendar.DAY_OF_MONTH);
-                final Date dateEntered = new Date(dayOfMonth,monthOfYear,year);
                 dialog=new DatePickerDialog(EnteringScreen.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
+                        Date dateEntered = new Date(view.getDayOfMonth(),view.getMonth() + 1,view.getYear());
                         String selecteddate=(dateEntered.toString());
                         date.setText(selecteddate);
                     }
