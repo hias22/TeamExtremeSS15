@@ -83,7 +83,10 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 isEnteredAmountAnExpanse=false;
             for(int position = 0; position < categories.length; ++position) {
                 if(categories[position].equals(dataSetToManipulate.category)) {
-                    spinner.setSelection(position);
+                    if(position >= 1)
+                        spinner.setSelection(position + 1);
+                    else
+                        spinner.setSelection(position);
                 }
             }
             date.setText(dataSetToManipulate.date);
@@ -175,7 +178,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                     public void onClick(DialogInterface dialog, int which,
                                         boolean isChecked) {
                         if (isChecked) {
-                           deleteCategoryList.add(which);
+                            deleteCategoryList.add(which);
                         } else if (deleteCategoryList.contains(which)) {
                             deleteCategoryList.remove(Integer.valueOf(which));
                         }
@@ -277,7 +280,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
     public Dialog createDialog(int id)
     {
         Dialog dialog=null;
-        switch(id)
+        switch (id)
         {
             case 1:
                 Calendar c=Calendar.getInstance();
