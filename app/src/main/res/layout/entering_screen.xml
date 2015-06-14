@@ -76,6 +76,9 @@
             android:layout_alignLeft="@+id/es_description"
             android:layout_alignStart="@+id/es_description"
             android:editable="true"
+            android:singleLine="true"
+            android:lines="1"
+            android:maxLines="1"
             android:layout_centerHorizontal="true" />
     </LinearLayout>
 

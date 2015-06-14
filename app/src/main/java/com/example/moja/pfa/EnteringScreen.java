@@ -350,19 +350,19 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
             if (manipulateDataSet) {
                 dataSet.dataBaseId=dataSetToManipulate.dataBaseId;
                 databaseInterface.updateDataSet(dataSet);
-                Toast.makeText(EnteringScreen.this, "data updated", Toast.LENGTH_LONG).show();
+                Toast.makeText(EnteringScreen.this, "Data updated.", Toast.LENGTH_LONG).show();
                 manipulateDataSet = false;
                 clearScreen();
                 openDataOverviewScreen();
             } else {
                 databaseInterface.insertDataSet(dataSet);
-                Toast.makeText(EnteringScreen.this, "data stored", Toast.LENGTH_LONG).show();
+                Toast.makeText(EnteringScreen.this, "Data stored.", Toast.LENGTH_LONG).show();
                 clearScreen();
             }
 
 
         }else{
-            Toast.makeText(EnteringScreen.this, "Please enter valid amount", Toast.LENGTH_LONG).show();
+            Toast.makeText(EnteringScreen.this, "Please enter a valid amount.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -375,7 +375,7 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
         isEnteredAmountAnExpanse = true;
         if (manipulateDataSet) {
             databaseInterface.deleteDataSet(dataSetToManipulate);
-            Toast.makeText(EnteringScreen.this, "data set deleted", Toast.LENGTH_LONG).show();
+            Toast.makeText(EnteringScreen.this, "Data set deleted.", Toast.LENGTH_LONG).show();
             manipulateDataSet = false;
             openDataOverviewScreen();
         }

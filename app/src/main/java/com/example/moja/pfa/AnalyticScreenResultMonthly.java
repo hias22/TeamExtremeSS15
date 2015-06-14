@@ -97,7 +97,7 @@ public class AnalyticScreenResultMonthly extends ActionBarActivity {
     }
 
     public void reactOnListViewItemSelected(DataSetResult dataSetResult) {
-        Toast.makeText(AnalyticScreenResultMonthly.this, "Functionality not implemented jet.", Toast.LENGTH_LONG).show();
+       // Toast.makeText(AnalyticScreenResultMonthly.this, "Functionality not implemented jet.", Toast.LENGTH_LONG).show();
     }
 
 
