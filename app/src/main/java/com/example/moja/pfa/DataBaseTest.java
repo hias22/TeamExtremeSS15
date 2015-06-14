@@ -1,14 +1,8 @@
 package com.example.moja.pfa;
 
-
 import android.util.Log;
 
 
-
-
-/**
- * Created by Mathias on 02.05.2015.
- */
 public class DataBaseTest{
     private static final String TAG = "DataBaseTest";
 
@@ -20,7 +14,6 @@ public class DataBaseTest{
 
 
      public void testAll(){
-       //  testAddingDBEntryWithCount();
     }
 
     public void testAddingDBEntryWithCount(){

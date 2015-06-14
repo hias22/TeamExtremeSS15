@@ -12,20 +12,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-/**
- * Created by Mathias on 09.05.2015.
- */
 public class DataOverviewScreen extends ActionBarActivity {
 
 
@@ -36,11 +30,9 @@ public class DataOverviewScreen extends ActionBarActivity {
 
         setTitle(R.string.os_title);
 
-        //listview:
-
         final ListView listview = (ListView) findViewById(R.id.data_overview_list_view);
 
-        ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
+        ArrayList<DataSet> dataSetList;
         DatabaseInterface databaseInterface = new DatabaseInterface(this);
         dataSetList = databaseInterface.getAllDataSets();
 
@@ -50,7 +42,6 @@ public class DataOverviewScreen extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                 Object listViewObject = listview.getItemAtPosition(position);
-                //DataSet selectedDataSet = (DataSet) listViewObject;
                 reactOnListViewItemSelected((DataSet) listViewObject);
             }
         });
@@ -59,19 +50,14 @@ public class DataOverviewScreen extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_data_overview_screen, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_entering) {
             openEnteringScreen();
         }
@@ -95,12 +81,10 @@ public class DataOverviewScreen extends ActionBarActivity {
     public void reactOnListViewItemSelected(DataSet dataSet) {
         Intent intent = new Intent(this, EnteringScreen.class);
         intent.putExtra("manipulateDataSet", true);
-        intent.putExtra("dataSet",(Parcelable) dataSet);
+        intent.putExtra("dataSet", dataSet);
         startActivity(intent);
     }
 
-
-    //listview
     private class StableArrayAdapter extends ArrayAdapter<DataSet> {
 
         HashMap<Integer, DataSet> mIdMap = new HashMap<Integer, DataSet>();

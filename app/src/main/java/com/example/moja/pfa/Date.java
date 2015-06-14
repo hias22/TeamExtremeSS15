@@ -1,10 +1,5 @@
 package com.example.moja.pfa;
 
-
-
-/**
- * Created by Mathias on 09.05.2015.
- */
 public class Date {
     Integer day;
     Integer month;

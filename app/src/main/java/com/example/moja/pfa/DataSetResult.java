@@ -1,9 +1,5 @@
 package com.example.moja.pfa;
 
-
-/**
- * Created by Mathias on 09.05.2015.
- */
 public class DataSetResult{
     String amount_expanses;
     String amount_earnings;

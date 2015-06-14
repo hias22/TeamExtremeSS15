@@ -9,15 +9,11 @@ import android.provider.BaseColumns;
 import android.util.Log;
 import java.util.ArrayList;
 
-/**
- * Created by Mathias on 09.05.2015.
- */
 public final class DatabaseInterface extends SQLiteOpenHelper {
     private static final String TAG = "DatabaseInterface";
 
     SQLiteDatabase sql_db;
 
-    /* Inner class that defines the table contents */
     public static abstract class DatabaseEntry implements BaseColumns {
         public static final String TABLE_NAME = "datasets";
         public static final String COLUMN_NAME_AMOUNT = "amount";
@@ -57,16 +53,12 @@ public final class DatabaseInterface extends SQLiteOpenHelper {
 
 
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // This database is only a cache for online data, so its upgrade policy is
-        // to simply to discard the data and start over
         db.execSQL(SQL_DELETE_ENTRIES);
         onCreate(db);
     }
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         onUpgrade(db, oldVersion, newVersion);
     }
-
-// CRUD Operations (Create, Read, Update and Delete)
 
     public void insertDataSet(DataSet dataSet) {
         Log.d(TAG, "insertDataSet");

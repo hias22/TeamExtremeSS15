@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-/**
- * Created by Mathias on 25.05.2015.
- */
 public class Utils {
     private static Utils ourInstance = new Utils();
     public static final String PREFS_NAME = "MyPrefsFile";
@@ -138,8 +135,10 @@ public class Utils {
         SharedPreferences settings = context.getSharedPreferences(PREFS_NAME, 0);
         String custom_categories = settings.getString(CATEGORIES, "");
 
-        if(custom_categories != "") {
-            String[] array_custom_categories = custom_categories.split(";");
+        if(custom_categories != null) {
+            String[] array_custom_categories;
+            array_custom_categories = custom_categories.split(";");
+
             for(String cate : array_custom_categories) {
                 if(cate != "")
                     categoryList.add(cate);
@@ -159,7 +158,7 @@ public class Utils {
         SharedPreferences.Editor editor = settings.edit();
         editor.putString(CATEGORIES, custom_categories);
 
-        editor.commit();
+        editor.apply();
     }
 
     public void deleteCustomCategory(Context context, ArrayList<Integer> positionOfItemsToDelete) {
@@ -168,17 +167,21 @@ public class Utils {
         String custom_categories_old = settings.getString(CATEGORIES, "");
         String custom_categories_new = "";
 
-        String[] array_custom_categories = custom_categories_old.split(";");
-        for(Integer iterator = 0; iterator < array_custom_categories.length; iterator++) {
-            if(!positionOfItemsToDelete.contains(iterator))
-                custom_categories_new += array_custom_categories[iterator] + ";";
+        String[] array_custom_categories;
+        if (custom_categories_old != null) {
+            array_custom_categories = custom_categories_old.split(";");
+
+            for(Integer iterator = 0; iterator < array_custom_categories.length; iterator++) {
+                if(!positionOfItemsToDelete.contains(iterator))
+                    custom_categories_new += array_custom_categories[iterator] + ";";
+            }
+
+
+            SharedPreferences.Editor editor = settings.edit();
+            editor.putString(CATEGORIES, custom_categories_new);
+
+            editor.apply();
         }
-
-
-        SharedPreferences.Editor editor = settings.edit();
-        editor.putString(CATEGORIES, custom_categories_new);
-
-        editor.commit();
     }
 
 
@@ -238,7 +241,7 @@ public class Utils {
 
     public ArrayList<DataSetResult> transformDatasetToMonthlyDataset(Context context, DataBaseRequest dataBaseRequest) {
 
-        ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
+        ArrayList<DataSet> dataSetList;
         DatabaseInterface databaseInterface = new DatabaseInterface(context);
         dataSetList = databaseInterface.getDataFromDataBaseRequest(dataBaseRequest);
 
@@ -258,7 +261,7 @@ public class Utils {
             amountExpanses[iterator]=0.0;
             amountEarnings[iterator]=0.0;
         }
-        Integer position=0;
+        Integer position;
         Date currentDate;
         for(iterator=0; iterator<dataSetList.size(); iterator++){
             if(requestedCategory.equals(dataSetList.get(iterator).category)){

@@ -20,9 +20,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Mathias on 09.05.2015.
- */
 public class AnalyticScreenResult extends ActionBarActivity {
     DataBaseRequest dataBaseRequest;
 
@@ -36,14 +33,12 @@ public class AnalyticScreenResult extends ActionBarActivity {
         Intent intent = getIntent();
         dataBaseRequest = intent.getParcelableExtra("dataBaseRequest");
 
-        ArrayList<DataSet> dataSetList = new ArrayList<DataSet>();
+        ArrayList<DataSet> dataSetList;
         DatabaseInterface databaseInterface = new DatabaseInterface(this);
         dataSetList = databaseInterface.getDataFromDataBaseRequest(dataBaseRequest);
 
-        ArrayList<DataSetResult> dataSetResultList = new ArrayList<DataSetResult>();
+        ArrayList<DataSetResult> dataSetResultList;
         dataSetResultList = Utils.getInstance().getResultsFromData(this, dataSetList, dataBaseRequest);
-
-        //listview:
 
         final ListView listview = (ListView) findViewById(R.id.analytic_screen_result_list_view);
 
@@ -62,19 +57,14 @@ public class AnalyticScreenResult extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_analytic_screen_result, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_entering) {
             openEnteringScreen();
         }
@@ -108,11 +98,8 @@ public class AnalyticScreenResult extends ActionBarActivity {
         dataBaseRequest.category=dataSetResult.category;
         intent.putExtra("dataBaseRequest",(Parcelable) dataBaseRequest);
         startActivity(intent);
-        //Toast.makeText(AnalyticScreenResult.this, "Functionality not implemented jet.", Toast.LENGTH_LONG).show();
     }
 
-
-    //listview
     private class StableArrayAdapter extends ArrayAdapter<DataSetResult> {
 
         HashMap<Integer, DataSetResult> mIdMap = new HashMap<Integer, DataSetResult>();

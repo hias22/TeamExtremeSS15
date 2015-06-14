@@ -6,6 +6,7 @@
     android:paddingBottom="30px"
     android:paddingTop="30px"
     android:paddingLeft="5px"
+    android:paddingRight="5px"
     android:background="#ffebebeb">
 
     <ImageView
@@ -14,9 +15,6 @@
     android:layout_height="fill_parent"
     android:layout_marginRight="6dip"
     xmlns:android="http://schemas.android.com/apk/res/android" />
-
-    <!--android:src="@mipmap/ic_launcher"-->
-
 
     <LinearLayout
         android:orientation="vertical"

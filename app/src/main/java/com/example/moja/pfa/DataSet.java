@@ -3,9 +3,6 @@ package com.example.moja.pfa;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Mathias on 09.05.2015.
- */
 public class DataSet implements Parcelable {
     Integer dataBaseId;
     String amount;
@@ -23,8 +20,6 @@ public class DataSet implements Parcelable {
         dataBaseId = -1;
     }
 
-
-    //for getting parcelable datatype
     public int describeContents() {
         return 0;
     }

@@ -14,14 +14,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by Mathias on 09.05.2015.
- */
 public class AnalyticScreenResultMonthly extends ActionBarActivity {
 
     @Override
@@ -34,10 +30,8 @@ public class AnalyticScreenResultMonthly extends ActionBarActivity {
         Intent intent = getIntent();
         DataBaseRequest dataBaseRequest = intent.getParcelableExtra("dataBaseRequest");
 
-        ArrayList<DataSetResult> dataSetResultList = new ArrayList<DataSetResult>();
+        ArrayList<DataSetResult> dataSetResultList;
         dataSetResultList = Utils.getInstance().transformDatasetToMonthlyDataset(this, dataBaseRequest);
-
-        //listview:
 
         final ListView listview = (ListView) findViewById(R.id.analytic_screen_result_list_view);
 
@@ -55,19 +49,14 @@ public class AnalyticScreenResultMonthly extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_analytic_screen_result, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_entering) {
             openEnteringScreen();
         }
@@ -97,11 +86,8 @@ public class AnalyticScreenResultMonthly extends ActionBarActivity {
     }
 
     public void reactOnListViewItemSelected(DataSetResult dataSetResult) {
-       // Toast.makeText(AnalyticScreenResultMonthly.this, "Functionality not implemented jet.", Toast.LENGTH_LONG).show();
     }
 
-
-    //listview
     private class StableArrayAdapter extends ArrayAdapter<DataSetResult> {
 
         HashMap<Integer, DataSetResult> mIdMap = new HashMap<Integer, DataSetResult>();

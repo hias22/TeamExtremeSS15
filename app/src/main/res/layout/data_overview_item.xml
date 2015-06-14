@@ -15,8 +15,6 @@
     android:layout_marginRight="6dip"
     xmlns:android="http://schemas.android.com/apk/res/android" />
 
-    <!--android:src="@mipmap/ic_launcher"-->
-
 
     <LinearLayout
         android:orientation="vertical"
@@ -28,11 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"/>
-<!--
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"></FrameLayout>
--->
+
         <TextView android:id="@+id/data_overview_screen_amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

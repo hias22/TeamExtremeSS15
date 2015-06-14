@@ -3,9 +3,6 @@ package com.example.moja.pfa;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by Mathias on 09.05.2015.
- */
 public class DataBaseRequest  implements Parcelable{
     String date_from;
     String date_to;
@@ -18,7 +15,6 @@ public class DataBaseRequest  implements Parcelable{
     }
 
     public DataBaseRequest(){}
-    //for getting parcelable datatype
     public int describeContents() {
         return 0;
     }
