@@ -104,26 +104,22 @@ public class DataOverviewScreen extends ActionBarActivity {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
             DataSet dataSet = mIdMap.get(position);
-           // if (v == null) {
-                LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                if(dataSet.expanse.toCharArray()[0] == 'T')
-                    v = vi.inflate(R.layout.data_overview_item_red, null);
-                else if(dataSet.expanse.toCharArray()[0] == 'F')
-                    v = vi.inflate(R.layout.data_overview_item_green, null);
-                else
-                    v = vi.inflate(R.layout.data_overview_item, null);
-           // }
-
+            LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            if(dataSet.expanse.toCharArray()[0] == 'T')
+                convertView = vi.inflate(R.layout.data_overview_item_red, null);
+            else if(dataSet.expanse.toCharArray()[0] == 'F')
+                convertView = vi.inflate(R.layout.data_overview_item_green, null);
+            else
+                convertView = vi.inflate(R.layout.data_overview_item, null);
 
             if (dataSet != null) {
-                TextView description1 = (TextView) v.findViewById(R.id.data_overview_screen_description1);
-                TextView description2 = (TextView) v.findViewById(R.id.data_overview_screen_description2);
-                TextView amount = (TextView) v.findViewById(R.id.data_overview_screen_amount);
-                TextView category = (TextView) v.findViewById(R.id.data_overview_screen_category);
-                TextView date = (TextView) v.findViewById(R.id.data_overview_screen_date);
-                ImageView imageView = (ImageView)  v.findViewById(R.id.item_image);
+                TextView description1 = (TextView) convertView.findViewById(R.id.data_overview_screen_description1);
+                TextView description2 = (TextView) convertView.findViewById(R.id.data_overview_screen_description2);
+                TextView amount = (TextView) convertView.findViewById(R.id.data_overview_screen_amount);
+                TextView category = (TextView) convertView.findViewById(R.id.data_overview_screen_category);
+                TextView date = (TextView) convertView.findViewById(R.id.data_overview_screen_date);
+                ImageView imageView = (ImageView)  convertView.findViewById(R.id.item_image);
 
                 String[] descriptionArray = Utils.getInstance().createDescriptionOutput(dataSet.description);
 
@@ -154,7 +150,7 @@ public class DataOverviewScreen extends ActionBarActivity {
                     imageView.setBackgroundResource(R.mipmap.ic_launcher);
             }
 
-            return v;
+            return convertView;
         }
 
 
