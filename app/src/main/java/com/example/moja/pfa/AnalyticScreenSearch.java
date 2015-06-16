@@ -14,7 +14,10 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
 import java.util.Calendar;
 
 
@@ -123,33 +126,49 @@ public class AnalyticScreenSearch extends ActionBarActivity implements View.OnCl
     {
         Dialog dialog=null;
 
-        Calendar c=Calendar.getInstance();
+        final Calendar c=Calendar.getInstance();
         int year=c.get(Calendar.YEAR);
         int monthOfYear=c.get(Calendar.MONTH);
         int dayOfMonth=c.get(Calendar.DAY_OF_MONTH);
+        final Date today = new Date(dayOfMonth, monthOfYear + 1, year);
         switch(id)
         {
             case 1:
                 dialog=new DatePickerDialog(AnalyticScreenSearch.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
+
                         Date dateEntered = new Date(view.getDayOfMonth(),view.getMonth() + 1,view.getYear());
-                        String selecteddate=(dateEntered.toString());
-                        dateFrom.setText(selecteddate);
+                        if(!dateEntered.isDateBefore(today)) {
+                            Toast.makeText(AnalyticScreenSearch.this, "Date in the future not allowed.", Toast.LENGTH_SHORT).show();
+                            dateFrom.setText(today.toString());
+
+                        }
+                        else {
+                            String selecteddate = (dateEntered.toString());
+                            dateFrom.setText(selecteddate);
+                        }
                     }
-                }, year, monthOfYear, dayOfMonth);
+                }, year, monthOfYear + 1, dayOfMonth);
                 break;
             case 2:
                 dialog=new DatePickerDialog(AnalyticScreenSearch.this, new DatePickerDialog.OnDateSetListener() {
                     public void onDateSet(DatePicker view, int year, int monthOfYear,
                                           int dayOfMonth) {
                         Date dateEntered = new Date(view.getDayOfMonth(),view.getMonth() + 1,view.getYear());
-                        String selecteddate=(dateEntered.toString());
-                        dateTo.setText(selecteddate);
+                        if(!dateEntered.isDateBefore(today)) {
+                            Toast.makeText(AnalyticScreenSearch.this, "Date in the future not allowed.", Toast.LENGTH_SHORT).show();
+                            dateTo.setText(today.toString());
+                        }
+                        else {
+                            String selecteddate = (dateEntered.toString());
+                            dateTo.setText(selecteddate);
+                        }
                     }
                 }, year, monthOfYear, dayOfMonth);
                 break;
         }
+
         return dialog;
     }
 }
