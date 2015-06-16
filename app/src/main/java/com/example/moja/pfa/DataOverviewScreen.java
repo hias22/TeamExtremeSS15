@@ -106,7 +106,7 @@ public class DataOverviewScreen extends ActionBarActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View v = convertView;
             DataSet dataSet = mIdMap.get(position);
-            if (v == null) {
+           // if (v == null) {
                 LayoutInflater vi = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 if(dataSet.expanse.toCharArray()[0] == 'T')
                     v = vi.inflate(R.layout.data_overview_item_red, null);
@@ -114,7 +114,7 @@ public class DataOverviewScreen extends ActionBarActivity {
                     v = vi.inflate(R.layout.data_overview_item_green, null);
                 else
                     v = vi.inflate(R.layout.data_overview_item, null);
-            }
+           // }
 
 
             if (dataSet != null) {
