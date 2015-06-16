@@ -107,9 +107,6 @@ public class EnteringScreen extends ActionBarActivity implements View.OnClickLis
                 }
             }
         });
-
-
-
     }
 
     private void setSpinner() {
